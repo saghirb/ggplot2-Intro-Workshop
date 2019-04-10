@@ -1,0 +1,853 @@
+---
+title: "Introduction to `ggplot2`"
+author: "Saghir Bashir & Andreia Carlos"
+date: "`r format(Sys.time(), '%a %d %b %Y (%H:%M:%S)')`"
+output:
+  xaringan::moon_reader:
+    chakra: libs/remark-latest.min.js
+    css: [tweaks.css, default, robot-fonts]
+    self_contained: true
+    # lib_dir: libs
+    # https://github.com/gnab/remark/wiki/Configuration
+    nature:
+      ratio: 16:9
+      highlightStyle: default
+      highlightLanguage: r
+      highlightLines: true
+      highlightSpans: false
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+    seal: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(knitr)
+library(kableExtra)
+library(ggplot2)
+library(emojifont)
+library(here)
+
+# Making some aesthetic changes for this document
+theme_set(theme_gray(base_size = 14))
+
+options(htmltools.dir.version = FALSE)
+
+#
+# Copied & modified from: https://github.com/gadenbuie/gentle-ggplot2 (Index.Rmd)
+#
+# Thanks to Garrick Aden-Buie (https://www.garrickadenbuie.com/) for sharing :)
+#
+
+knitr::opts_chunk$set(fig.width=4.25, fig.height=3.3, fig.retina=3,
+                      out.width = "100%",
+                      message=FALSE, warning=FALSE, cache = TRUE, 
+                      autodep = TRUE, hiline=TRUE)
+
+knitr::opts_hooks$set(fig.callout = function(options) {
+  if (options$fig.callout) {
+    options$echo <- FALSE
+    options$out.height <- "99%"
+    options$fig.width <- 16
+    options$fig.height <- 8
+  }
+  options
+})
+
+#_# Readin the gapminder data now.
+library(data.table)
+gm <- fread(here("data", "gapminder.csv"))
+```
+
+class: middle, center
+
+<div class="ggplot-logo-left-top"></div> 
+<div class="gapminder-logo-left-bottom"></div>
+
+# Introduction to `ggplot2`
+
+<br>
+
+### Saghir Bashir & Andreia Carlos<br><br>13th April 2019
+
+
+---
+class: inverse, middle, center
+
+# Relax
+
+# Experiment
+
+# Make Mistakes
+
+# Learn
+
+# Enjoy
+
+---
+class: middle, center
+
+<div class="ggplot-logo-left-top"></div> 
+<div class="gapminder-logo-left-bottom"></div>
+
+# Outline
+
+## Gapminder Data
+
+## `ggplot2` Basics
+
+## Themes and `ggtheme`
+
+## Summary
+
+---
+class: center, middle
+
+```{r, out.width="900px", echo=FALSE}
+knitr::include_graphics("images/gapminder-plot.png")
+```
+
+
+---
+class: middle, center
+<div class="gapminder-logo-right-top"></div>
+
+# Gapminder Data
+
+### Population
+
+### GDP per capita (US$, inflation-adjusted)
+
+### Life expectancy at birth, in years
+
+### Infant Mortality
+
+### Fertility
+
+---
+class: middle, center
+<div class="gapminder-logo-right-top"></div>
+
+# First 10 Observations
+
+```{r headgm, echo=FALSE, eval=TRUE}
+head(gm, n=10) %>% kable(align = 'cccrrrrr')
+```
+
+---
+class: middle, center
+<div class="gapminder-logo-right-top"></div>
+
+# Last 10 Observations
+
+```{r tailgm, echo=FALSE, eval=TRUE}
+tail(gm, n=10) %>% kable(align = 'cccrrrrr')
+```
+
+---
+<div class="gapminder-logo-right-top"></div>
+# Questions of Interest
+
+<br>
+
+### What are the time trends for Portugal?
+
+### How does Portugal compare to other European countries?
+
+## How does Portugal perform in Europe for health (life expectancy) 
+and wealth (GDP) over time?
+
+---
+class: center, middle
+
+```{r, out.width = "400px", echo=FALSE}
+knitr::include_graphics("images/hex-ggplot2.png")
+```
+
+---
+class: inverse, center, middle
+
+## `install.packages("ggplot2")`
+## `install.packages("ggtheme")`
+## `install.packages("data.table")`
+## `install.packages("here")`
+
+---
+<div class="rdatatable-logo-right-top"></div>
+
+# Imported Gapminder Data
+
+```{r importgmshow, echo=TRUE, eval=TRUE}
+library(data.table)
+library(here)
+
+gm <- fread(here("data", "gapminder.csv"))
+
+# Some modifications which will be useful later
+gm[, continent:=as.factor(continent)]
+gm[, country:=as.factor(country)]
+gm[, fyear:=as.factor(year)]
+```
+
+---
+<div class="gapminder-logo-right-top"></div>
+
+# Look at Imported Data
+
+```{r gmDataLook, echo=TRUE, eval=FALSE}
+gm
+```
+
+
+```{r Importedgm, echo=FALSE, eval=TRUE}
+widthDefault <- getOption("width")
+options(width = 100)
+gm
+options(width = widthDefault)
+```
+
+---
+<div class="gapminder-logo-right-top"></div>
+
+# Structure of Gapminder Data
+```{r gmstructure, echo=TRUE, eval=TRUE}
+str(gm)
+```
+
+---
+class: center, middle
+
+```{r, out.width = "400px", echo=FALSE}
+knitr::include_graphics("images/hex-ggplot2.png")
+```
+
+---
+class: inverse, center, middle
+
+# What are the time trends for Portugal?
+
+---
+
+# Portuguese and European Data
+
+### Let's create a dataset, `gmPT`, for Portugal to make our life a bit easier.
+
+```{r gmGubsets}
+# Portuguese Data
+gmPT <- gm[country == "Portugal"]
+```
+
+---
+layout: true
+<div class="ggplot2-hex-right-top"></div>
+
+## Life Expectancy
+---
+
+.left-code[
+```{r gmPT-01, eval=FALSE}
+ggplot(gmPT)
+```
+]
+
+.right-plot[
+```{r gmPT-plot-01, ref.label='gmPT-01', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+<div class="ggplot2-hex-right-top"></div>
+
+.left-code[
+```{r gmPT-02, eval=FALSE}
+ggplot(gmPT, aes(year, lifeexp)) #<<
+```
+]
+
+.right-plot[
+```{r gmPT-plot-02, ref.label='gmPT-02', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+<div class="ggplot2-hex-right-top"></div>
+
+## Life Expectancy - Points
+---
+
+.left-code[
+```{r gmPT-03, eval=FALSE}
+ggplot(gmPT, aes(year, lifeexp)) +
+  geom_point() #<<
+```
+]
+
+.right-plot[
+```{r gmPT-plot-03, ref.label='gmPT-03', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+<div class="ggplot2-hex-right-top"></div>
+
+## Life Expectancy - Line
+---
+
+.left-code[
+```{r gmPT-04, eval=FALSE}
+ggplot(gmPT, aes(year, lifeexp)) +
+  geom_line() #<<
+```
+]
+
+.right-plot[
+```{r gmPT-plot-04, ref.label='gmPT-04', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+<div class="ggplot2-hex-right-top"></div>
+
+## Life Expectancy - Points & Line
+---
+
+.left-code[
+```{r gmPT-05, eval=FALSE}
+ggplot(gmPT, aes(year, lifeexp)) +
+  geom_point() + #<<
+  geom_line() #<<
+```
+]
+
+.right-plot[
+```{r gmPT-plot-05, ref.label='gmPT-05', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+<div class="ggplot2-hex-right-top"></div>
+
+## Life Expectancy - Colour
+---
+
+.left-code[
+```{r gmPT-06, eval=FALSE}
+ggplot(gmPT, aes(year, lifeexp)) +
+  geom_point(colour="blue") +  #<<
+  geom_line(colour="blue") #<<
+```
+]
+
+.right-plot[
+```{r gmPT-plot-06, ref.label='gmPT-06', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+<div class="ggplot2-hex-right-top"></div>
+
+## Life Expectancy - Y-axis
+---
+
+.left-code[
+```{r gmPT-08, eval=FALSE}
+ggplot(gmPT, aes(year, lifeexp)) +
+  geom_point(colour="blue") + 
+  geom_line(colour="blue") +
+  scale_y_continuous(  #<<
+                limits=c(0, 80))  #<<
+```
+]
+
+.right-plot[
+```{r gmPT-plot-08, ref.label='gmPT-08', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+<div class="ggplot2-hex-right-top"></div>
+
+## Life Expectancy - Axis labels
+---
+
+.left-code[
+```{r gmPT-10, eval=FALSE}
+ggplot(gmPT, aes(year, lifeexp)) +
+  geom_point(colour="blue") + 
+  geom_line(colour="blue") +
+  scale_y_continuous( 
+                limits=c(0, 80)) +
+  xlab("Year") +  #<<
+  ylab("Life Expectancy at Birth") #<<
+```
+
+<br>
+
+### Interpret this plot.
+]
+
+.right-plot[
+```{r gmPT-plot-10, ref.label='gmPT-10', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: false
+class: inverse, center, middle
+
+# Exercises
+
+### Download: http://example.com/real-link-here
+
+### Double Click on "`ggplot2-exercises.Rproj`"
+
+### Open file "`ggplot2-exercises.Rmd`"
+
+### Complete "Exercise 1 - Portugal"
+
+---
+## Some comments (i)
+
+.left-code[
+```{r gmPT-12, eval=FALSE}
+library(magrittr)
+
+gm[country=="Portugal"] %>% 
+ggplot(aes(year, lifeexp)) +
+  geom_point(colour="darkred") +  #<<
+  geom_line(colour="darkgreen") +
+  scale_y_continuous( 
+                limits=c(0, 80)) +
+  xlab("Year") +
+  ylab("Life Expectancy at Birth")
+```
+
+<br>
+### Data can be "piped" to `ggplot2`
+
+]
+
+.right-plot[
+```{r gmPT-plot-12, ref.label='gmPT-12', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Some comments (ii)
+---
+
+.left-code[
+```{r gmPT-14, eval=FALSE}
+# 
+
+gm[country=="Portugal"] %>% 
+ggplot(aes(year, lifeexp)) +
+  geom_line(colour="darkgreen") + 
+  geom_point(colour="darkred") +  #<<
+  scale_y_continuous( 
+                limits=c(0, 80)) +
+  xlab("Year") +
+  ylab("Life Expectancy at Birth")
+```
+
+### Plots are constructed in the order they are defined.
+
+]
+
+.right-plot[
+```{r gmPT-plot-14, ref.label='gmPT-14', echo=FALSE, out.width="100%"}
+```
+]
+
+
+
+---
+layout: false
+class: inverse, center, middle
+
+# How does Portugal compare to other European countries?
+
+---
+layout: true
+## Life Expectancy - Europe
+---
+
+.left-code[
+<br>
+```{r gmEU-04, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(year, lifeexp, 
+           group=country)) + #<<
+geom_line(colour="grey80") +
+scale_y_continuous(limits=c(0, 85))
+```
+]
+
+.right-plot[
+```{r gmEU-plot-04, ref.label='gmEU-04', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - Europe
+---
+
+.left-code[
+<br>
+```{r gmEU-08, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(year, lifeexp, 
+           group=country)) + 
+geom_line(colour="grey80") +
+geom_line(data=gmPT, #<<
+          colour="blue") + #<<
+scale_y_continuous(limits=c(0, 85))
+```
+
+**Used `geom_line()` twice with different data.**
+
+**See `gghighlight` package.**
+]
+.right-plot[
+```{r gmEU-plot-12, ref.label='gmEU-12', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - Points
+---
+
+.left-code[
+<br>
+```{r gmEU-12, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(year, lifeexp, 
+           group=country)) + 
+geom_point(colour="grey75") + #<<
+geom_point(data=gmPT, 
+          colour="blue") + 
+scale_y_continuous(limits=c(60,85))
+```
+### Points overlap!
+
+]
+
+.right-plot[
+```{r gmEU-plot-12, ref.label='gmEU-12', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - Jitter
+---
+
+.left-code[
+<br>
+```{r gmEU-16, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(year, lifeexp, 
+           group=country)) + 
+geom_jitter(colour="grey75") + #<<
+geom_point(data=gmPT, 
+          colour="blue") + 
+scale_y_continuous(limits=c(60,85))
+```
+### Use `geom_jitter()`.
+]
+
+.right-plot[
+```{r gmEU-plot-16, ref.label='gmEU-16', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+
+.left-code[
+<br>
+```{r gmEU-20, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(year, lifeexp, 
+           group=country)) + 
+geom_jitter(colour="grey75",
+            width = 0.5, #<<
+            size = 0.5) + #<<
+geom_point(data=gmPT, 
+          colour="blue") + 
+scale_y_continuous(limits=c(60,85))
+```
+### Easier to see the points.
+]
+
+.right-plot[
+```{r gmEU-plot-20, ref.label='gmEU-20', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - Boxplot
+---
+
+.left-code[
+<br>
+
+```{r gmEU-24, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(fyear, lifeexp)) + #<<
+geom_boxplot() + #<<
+geom_point(data=gmPT, 
+          colour="blue") + 
+scale_y_continuous(limits=c(60,85))
+```
+### Make sure x-axis is a factor variable.
+]
+
+.right-plot[
+```{r gmEU-plot-24, ref.label='gmEU-24', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - Boxplot
+---
+
+.left-code[
+### Make the x-axis readable.
+
+```{r gmEU-28, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(fyear, lifeexp)) + 
+geom_boxplot() + 
+geom_point(data=gmPT, 
+          colour="blue") + 
+scale_x_discrete( #<<
+  breaks=seq(1960, 2010, 10)) + #<<
+scale_y_continuous(limits=c(60,85))
+```
+]
+
+.right-plot[
+```{r gmEU-plot-28, ref.label='gmEU-28', echo=FALSE, out.width="100%"}
+```
+]
+
+
+---
+layout: false
+class: inverse, center, middle
+
+# Exercises
+
+### Double Click on "`ggplot2-exercises.Rproj`"
+
+### Open file "`ggplot2-exercises.Rmd`"
+
+### Complete "Exercise 2 - Europe"
+
+---
+
+class: inverse, center, middle
+
+# How does Portugal perform in Europe for health (life expectancy) and wealth (GDP) over time?
+
+---
+<div class="gapminder-logo-right-top"></div>
+
+## Health versus Wealth over Time
+
+### We will only use data for 1960, 1980, 2000 and 2015.
+
+### This is essentialy a subset of the famous gapminder plot
+
+.pull-right[
+```{r, out.width="450px", echo=FALSE}
+knitr::include_graphics("images/gapminder-plot.png")
+```
+]
+
+---
+layout: true
+## Health vs Wealth
+---
+
+.left-code[
+<br>
+```{r gmHW-04, eval=FALSE}
+yrs <- c(1960,1980,2000,2015)
+gm[continent=="Europe" & 
+   year %in% yrs] %>% 
+ggplot(aes(gdpPercap, lifeexp,
+       colour=fyear)) + 
+geom_point() 
+
+```
+### Not an easy plot to interpret.
+
+]
+
+.right-plot[
+```{r gmHW-plot-04, ref.label='gmHW-04', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Health vs Wealth - Facet
+---
+
+.left-code[
+<br>
+```{r gmHW-08, eval=FALSE}
+yrs <- c(1960,1980,2000,2010)
+gm[continent=="Europe" & 
+   year %in% yrs] %>% 
+ggplot(aes(gdpPercap, lifeexp,
+       colour=fyear)) + 
+geom_point() +
+facet_wrap(~fyear) #<<
+
+```
+### Plot x-axis on a log scale.
+
+]
+
+.right-plot[
+```{r gmHW-plot-08, ref.label='gmHW-08', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Health vs Wealth - Log Scale
+---
+
+.left-code[
+<br>
+```{r gmHW-12, eval=FALSE}
+yrs <- c(1960,1980,2000,2010) #<<
+gm[continent=="Europe" & 
+   year %in% yrs] %>% 
+ggplot(aes(gdpPercap, lifeexp)) + 
+geom_point(aes(size=pop),
+  colour="grey70") +
+scale_x_log10( #<<
+ breaks = c(10^3, 10^4, 10^5), #<<
+ labels = c("1k","10k","100k")) + #<<
+facet_wrap(~fyear) 
+```
+]
+
+.right-plot[
+```{r gmHW-plot-12, ref.label='gmHW-12', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Health vs Wealth - Portugal
+---
+
+.left-code[
+### Add Portugal
+
+```{r gmHW-16, eval=FALSE}
+gm[continent=="Europe" & 
+   year %in% yrs] %>% 
+ggplot(aes(gdpPercap, lifeexp)) + 
+geom_point(aes(size=pop),
+  colour="grey70") +
+scale_x_log10(
+ breaks = c(10^3, 10^4, 10^5),
+ labels = c("1k","10k","100k")) + 
+facet_wrap(~fyear) +
+geom_point(data =  #<<
+           gmPT[year %in% yrs],  #<<
+           colour="blue") #<<
+```
+]
+
+.right-plot[
+```{r gmHW-plot-16, ref.label='gmHW-16', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Health vs Wealth 
+---
+
+.left-code[
+### Move the legend to below the plot.
+
+```{r gmHW-20, eval=FALSE}
+gm[continent=="Europe" & 
+   year %in% yrs] %>% 
+ggplot(aes(gdpPercap, lifeexp)) + 
+geom_point(aes(size=pop),
+  colour="grey70") +
+scale_x_log10(
+ breaks = c(10^3, 10^4, 10^5),
+ labels = c("1k","10k","100k")) + 
+facet_wrap(~fyear) +
+geom_point(data = 
+           gmPT[year %in% yrs], 
+           colour="blue") +
+theme(legend.position = "bottom") #<<
+```
+]
+
+.right-plot[
+```{r gmHW-plot-20, ref.label='gmHW-20', echo=FALSE, out.width="100%"}
+```
+]
+---
+layout: false
+class: inverse, center, middle
+
+# Exercises
+
+### Double Click on "`ggplot2-exercises.Rproj`"
+
+### Open file "`ggplot2-exercises.Rmd`"
+
+### Complete "Exercise 2 - Europe"
+
+---
+<div class="xaringan-hex-right-top"></div>
+
+# Summary
+
+###  
+
+### 
+
+### 
+
+### 
+
+### 
+
+### 
+
+---
+class: inverse, center, middle
+
+## This work is licensed under the
+
+## Creative Commons Attribution-NonCommercial 4.0 International License.
+
+## To view a copy of this license, visit
+
+## http://creativecommons.org/licenses/by-nc/4.0/
+

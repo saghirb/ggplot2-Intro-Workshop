@@ -1,0 +1,54 @@
+unnamed-chunk-1	include_graphics
+headgm	head	gm	%>%	kable
+tailgm	tail	gm	%>%	kable
+unnamed-chunk-2	include_graphics
+importgmshow	library	data.table	here	gm	fread	continent	as.factor	country	fyear	year
+gmDataLook	gm
+Importedgm	widthDefault	getOption	options	gm
+gmstructure	str	gm
+unnamed-chunk-3	include_graphics
+gmGubsets	gmPT	gm	country
+gmPT-01	ggplot	gmPT
+gmPT-plot-01	ggplot	gmPT
+gmPT-02	ggplot	gmPT	aes	year	lifeexp
+gmPT-plot-02	ggplot	gmPT	aes	year	lifeexp
+gmPT-03	ggplot	gmPT	aes	year	lifeexp	geom_point
+gmPT-plot-03	ggplot	gmPT	aes	year	lifeexp	geom_point
+gmPT-04	ggplot	gmPT	aes	year	lifeexp	geom_line
+gmPT-plot-04	ggplot	gmPT	aes	year	lifeexp	geom_line
+gmPT-05	ggplot	gmPT	aes	year	lifeexp	geom_point	geom_line
+gmPT-plot-05	ggplot	gmPT	aes	year	lifeexp	geom_point	geom_line
+gmPT-06	ggplot	gmPT	aes	year	lifeexp	geom_point	geom_line
+gmPT-plot-06	ggplot	gmPT	aes	year	lifeexp	geom_point	geom_line
+gmPT-08	ggplot	gmPT	aes	year	lifeexp	geom_point	geom_line	scale_y_continuous	c
+gmPT-plot-08	ggplot	gmPT	aes	year	lifeexp	geom_point	geom_line	scale_y_continuous	c
+gmPT-10	ggplot	gmPT	aes	year	lifeexp	geom_point	geom_line	scale_y_continuous	c	xlab	ylab
+gmPT-plot-10	ggplot	gmPT	aes	year	lifeexp	geom_point	geom_line	scale_y_continuous	c	xlab	ylab
+gmPT-12	library	magrittr	gm	country	%>%	ggplot	aes	year	lifeexp	geom_point	geom_line	scale_y_continuous	c	xlab	ylab
+gmPT-plot-12	library	magrittr	gm	country	%>%	ggplot	aes	year	lifeexp	geom_point	geom_line	scale_y_continuous	c	xlab	ylab
+gmPT-14	gm	country	%>%	ggplot	aes	year	lifeexp	geom_line	geom_point	scale_y_continuous	c	xlab	ylab
+gmPT-plot-14	gm	country	%>%	ggplot	aes	year	lifeexp	geom_line	geom_point	scale_y_continuous	c	xlab	ylab
+gmEU-04	gm	continent	%>%	ggplot	aes	year	lifeexp	country	geom_line	scale_y_continuous	c
+gmEU-plot-04	gm	continent	%>%	ggplot	aes	year	lifeexp	country	geom_line	scale_y_continuous	c
+gmEU-08	gm	continent	%>%	ggplot	aes	year	lifeexp	country	geom_line	gmPT	scale_y_continuous	c
+gmEU-plot-12	gm	continent	%>%	ggplot	aes	year	lifeexp	country	geom_point	gmPT	scale_y_continuous	c
+gmEU-12	gm	continent	%>%	ggplot	aes	year	lifeexp	country	geom_point	gmPT	scale_y_continuous	c
+gmEU-16	gm	continent	%>%	ggplot	aes	year	lifeexp	country	geom_jitter	geom_point	gmPT	scale_y_continuous	c
+gmEU-plot-16	gm	continent	%>%	ggplot	aes	year	lifeexp	country	geom_jitter	geom_point	gmPT	scale_y_continuous	c
+gmEU-20	gm	continent	%>%	ggplot	aes	year	lifeexp	country	geom_jitter	geom_point	gmPT	scale_y_continuous	c
+gmEU-plot-20	gm	continent	%>%	ggplot	aes	year	lifeexp	country	geom_jitter	geom_point	gmPT	scale_y_continuous	c
+gmEU-24	gm	continent	%>%	ggplot	aes	fyear	lifeexp	geom_boxplot	geom_point	gmPT	scale_y_continuous	c
+gmEU-plot-24	gm	continent	%>%	ggplot	aes	fyear	lifeexp	geom_boxplot	geom_point	gmPT	scale_y_continuous	c
+gmEU-28	gm	continent	%>%	ggplot	aes	fyear	lifeexp	geom_boxplot	geom_point	gmPT	scale_x_discrete	seq	scale_y_continuous	c
+gmEU-plot-28	gm	continent	%>%	ggplot	aes	fyear	lifeexp	geom_boxplot	geom_point	gmPT	scale_x_discrete	seq	scale_y_continuous	c
+unnamed-chunk-4	include_graphics
+gmHW-04	yrs	c	gm	continent	year	%in%	%>%	ggplot	aes	gdpPercap	lifeexp	fyear	geom_point
+gmHW-plot-04	yrs	c	gm	continent	year	%in%	%>%	ggplot	aes	gdpPercap	lifeexp	fyear	geom_point
+gmHW-08	yrs	c	gm	continent	year	%in%	%>%	ggplot	aes	gdpPercap	lifeexp	fyear	geom_point	facet_wrap
+gmHW-plot-08	yrs	c	gm	continent	year	%in%	%>%	ggplot	aes	gdpPercap	lifeexp	fyear	geom_point	facet_wrap
+gmHW-12	yrs	c	gm	continent	year	%in%	%>%	ggplot	aes	gdpPercap	lifeexp	geom_point	pop	scale_x_log10	facet_wrap	fyear
+gmHW-plot-12	yrs	c	gm	continent	year	%in%	%>%	ggplot	aes	gdpPercap	lifeexp	geom_point	pop	scale_x_log10	facet_wrap	fyear
+gmHW-16	gm	continent	year	%in%	yrs	%>%	ggplot	aes	gdpPercap	lifeexp	geom_point	pop	scale_x_log10	c	facet_wrap	fyear	gmPT
+gmHW-plot-16	gm	continent	year	%in%	yrs	%>%	ggplot	aes	gdpPercap	lifeexp	geom_point	pop	scale_x_log10	c	facet_wrap	fyear	gmPT
+gmHW-20	gm	continent	year	%in%	yrs	%>%	ggplot	aes	gdpPercap	lifeexp	geom_point	pop	scale_x_log10	c	facet_wrap	fyear	gmPT	theme
+gmHW-plot-20	gm	continent	year	%in%	yrs	%>%	ggplot	aes	gdpPercap	lifeexp	geom_point	pop	scale_x_log10	c	facet_wrap	fyear	gmPT	theme
