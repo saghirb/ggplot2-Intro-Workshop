@@ -21,7 +21,6 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
 library(knitr)
 library(kableExtra)
 library(ggplot2)
@@ -29,8 +28,7 @@ library(emojifont)
 library(here)
 
 # Making some aesthetic changes for this document
-theme_set(theme_gray(base_size = 14))
-
+theme_set(theme_gray(base_size = 10))
 options(htmltools.dir.version = FALSE)
 
 #
@@ -94,9 +92,9 @@ class: middle, center
 
 ## Gapminder Data
 
-## `ggplot2` Basics
+## Plotting Data
 
-## Themes and `ggtheme`
+## Facetting Plots
 
 ## Summary
 
@@ -109,20 +107,20 @@ knitr::include_graphics("images/gapminder-plot.png")
 
 
 ---
-class: middle, center
+class: middle, left
 <div class="gapminder-logo-right-top"></div>
 
 # Gapminder Data
 
-### Population
+### Population (Total)
 
 ### GDP per capita (US$, inflation-adjusted)
 
 ### Life expectancy at birth, in years
 
-### Infant Mortality
+### Infant Mortality per 1000 births
 
-### Fertility
+### Total Fertility (children per woman)
 
 ---
 class: middle, center
@@ -154,8 +152,7 @@ tail(gm, n=10) %>% kable(align = 'cccrrrrr')
 
 ### How does Portugal compare to other European countries?
 
-## How does Portugal perform in Europe for health (life expectancy) 
-and wealth (GDP) over time?
+### How does Portugal perform on health and wealth?
 
 ---
 class: center, middle
@@ -168,7 +165,7 @@ knitr::include_graphics("images/hex-ggplot2.png")
 class: inverse, center, middle
 
 ## `install.packages("ggplot2")`
-## `install.packages("ggtheme")`
+## `install.packages("magrittr")`
 ## `install.packages("data.table")`
 ## `install.packages("here")`
 
@@ -183,9 +180,12 @@ library(here)
 
 gm <- fread(here("data", "gapminder.csv"))
 
-# Some modifications which will be useful later
+# Create factor (categorical) variables to be used later.
+
 gm[, continent:=as.factor(continent)]
+
 gm[, country:=as.factor(country)]
+
 gm[, fyear:=as.factor(year)]
 ```
 
@@ -210,7 +210,7 @@ options(width = widthDefault)
 <div class="gapminder-logo-right-top"></div>
 
 # Structure of Gapminder Data
-```{r gmstructure, echo=TRUE, eval=TRUE}
+```{r gmstructure, echo=TRUE, eval=TRUE, highlight.output=c(2, 3, 10)}
 str(gm)
 ```
 
@@ -228,13 +228,16 @@ class: inverse, center, middle
 
 ---
 
-# Portuguese and European Data
+# Portuguese Data
 
-### Let's create a dataset, `gmPT`, for Portugal to make our life a bit easier.
+### Create a dataset for Portugal
 
 ```{r gmGubsets}
 # Portuguese Data
+options(width = 100)
 gmPT <- gm[country == "Portugal"]
+gmPT
+options(width = widthDefault)
 ```
 
 ---
@@ -245,6 +248,7 @@ layout: true
 ---
 
 .left-code[
+<br>
 ```{r gmPT-01, eval=FALSE}
 ggplot(gmPT)
 ```
@@ -259,6 +263,7 @@ ggplot(gmPT)
 <div class="ggplot2-hex-right-top"></div>
 
 .left-code[
+<br>
 ```{r gmPT-02, eval=FALSE}
 ggplot(gmPT, aes(year, lifeexp)) #<<
 ```
@@ -277,6 +282,7 @@ layout: true
 ---
 
 .left-code[
+<br>
 ```{r gmPT-03, eval=FALSE}
 ggplot(gmPT, aes(year, lifeexp)) +
   geom_point() #<<
@@ -296,6 +302,7 @@ layout: true
 ---
 
 .left-code[
+<br>
 ```{r gmPT-04, eval=FALSE}
 ggplot(gmPT, aes(year, lifeexp)) +
   geom_line() #<<
@@ -315,6 +322,7 @@ layout: true
 ---
 
 .left-code[
+<br>
 ```{r gmPT-05, eval=FALSE}
 ggplot(gmPT, aes(year, lifeexp)) +
   geom_point() + #<<
@@ -335,6 +343,7 @@ layout: true
 ---
 
 .left-code[
+<br>
 ```{r gmPT-06, eval=FALSE}
 ggplot(gmPT, aes(year, lifeexp)) +
   geom_point(colour="blue") +  #<<
@@ -355,6 +364,7 @@ layout: true
 ---
 
 .left-code[
+<br>
 ```{r gmPT-08, eval=FALSE}
 ggplot(gmPT, aes(year, lifeexp)) +
   geom_point(colour="blue") + 
@@ -377,6 +387,7 @@ layout: true
 ---
 
 .left-code[
+<br>
 ```{r gmPT-10, eval=FALSE}
 ggplot(gmPT, aes(year, lifeexp)) +
   geom_point(colour="blue") + 
@@ -415,22 +426,20 @@ class: inverse, center, middle
 ## Some comments (i)
 
 .left-code[
+### Piping data to `ggplot2`
+
 ```{r gmPT-12, eval=FALSE}
 library(magrittr)
 
-gm[country=="Portugal"] %>% 
+gm[country=="Portugal"] %>%   #<<
 ggplot(aes(year, lifeexp)) +
-  geom_point(colour="darkred") +  #<<
+  geom_point(colour="darkred") +
   geom_line(colour="darkgreen") +
   scale_y_continuous( 
                 limits=c(0, 80)) +
   xlab("Year") +
   ylab("Life Expectancy at Birth")
 ```
-
-<br>
-### Data can be "piped" to `ggplot2`
-
 ]
 
 .right-plot[
@@ -444,29 +453,24 @@ layout: true
 ---
 
 .left-code[
-```{r gmPT-14, eval=FALSE}
-# 
+### Order matters
 
+```{r gmPT-14, eval=FALSE}
 gm[country=="Portugal"] %>% 
 ggplot(aes(year, lifeexp)) +
-  geom_line(colour="darkgreen") + 
+  geom_line(colour="darkgreen") +  #<<
   geom_point(colour="darkred") +  #<<
   scale_y_continuous( 
                 limits=c(0, 80)) +
   xlab("Year") +
   ylab("Life Expectancy at Birth")
 ```
-
-### Plots are constructed in the order they are defined.
-
 ]
 
 .right-plot[
 ```{r gmPT-plot-14, ref.label='gmPT-14', echo=FALSE, out.width="100%"}
 ```
 ]
-
-
 
 ---
 layout: false
@@ -476,46 +480,20 @@ class: inverse, center, middle
 
 ---
 layout: true
-## Life Expectancy - Europe
+## Life Expectancy - Points
 ---
 
 .left-code[
-<br>
-```{r gmEU-04, eval=FALSE}
+### European Countries
+
+```{r gmEU-12, eval=FALSE}
 gm[continent=="Europe"] %>% 
-ggplot(aes(year, lifeexp, 
-           group=country)) + #<<
-geom_line(colour="grey80") +
-scale_y_continuous(limits=c(0, 85))
+ggplot(aes(year, lifeexp)) + 
+geom_point(colour="grey75") + #<<
+scale_y_continuous(limits=c(60,85))
 ```
 ]
 
-.right-plot[
-```{r gmEU-plot-04, ref.label='gmEU-04', echo=FALSE, out.width="100%"}
-```
-]
-
----
-layout: true
-## Life Expectancy - Europe
----
-
-.left-code[
-<br>
-```{r gmEU-08, eval=FALSE}
-gm[continent=="Europe"] %>% 
-ggplot(aes(year, lifeexp, 
-           group=country)) + 
-geom_line(colour="grey80") +
-geom_line(data=gmPT, #<<
-          colour="blue") + #<<
-scale_y_continuous(limits=c(0, 85))
-```
-
-**Used `geom_line()` twice with different data.**
-
-**See `gghighlight` package.**
-]
 .right-plot[
 ```{r gmEU-plot-12, ref.label='gmEU-12', echo=FALSE, out.width="100%"}
 ```
@@ -527,22 +505,19 @@ layout: true
 ---
 
 .left-code[
-<br>
-```{r gmEU-12, eval=FALSE}
+### Add Portugal (blue)
+```{r gmEU-14, eval=FALSE}
 gm[continent=="Europe"] %>% 
-ggplot(aes(year, lifeexp, 
-           group=country)) + 
-geom_point(colour="grey75") + #<<
-geom_point(data=gmPT, 
-          colour="blue") + 
+ggplot(aes(year, lifeexp)) + 
+geom_point(colour="grey75") + 
+geom_point(data=gmPT, #<<
+          colour="blue") + #<<
 scale_y_continuous(limits=c(60,85))
 ```
-### Points overlap!
-
 ]
 
 .right-plot[
-```{r gmEU-plot-12, ref.label='gmEU-12', echo=FALSE, out.width="100%"}
+```{r gmEU-plot-14, ref.label='gmEU-14', echo=FALSE, out.width="100%"}
 ```
 ]
 
@@ -552,17 +527,16 @@ layout: true
 ---
 
 .left-code[
-<br>
+### Jitter overlapping points
+
 ```{r gmEU-16, eval=FALSE}
 gm[continent=="Europe"] %>% 
-ggplot(aes(year, lifeexp, 
-           group=country)) + 
+ggplot(aes(year, lifeexp)) + 
 geom_jitter(colour="grey75") + #<<
 geom_point(data=gmPT, 
           colour="blue") + 
 scale_y_continuous(limits=c(60,85))
 ```
-### Use `geom_jitter()`.
 ]
 
 .right-plot[
@@ -573,19 +547,19 @@ scale_y_continuous(limits=c(60,85))
 ---
 
 .left-code[
-<br>
+### Make points smaller
+
 ```{r gmEU-20, eval=FALSE}
 gm[continent=="Europe"] %>% 
-ggplot(aes(year, lifeexp, 
-           group=country)) + 
+ggplot(aes(year, lifeexp)) + 
 geom_jitter(colour="grey75",
-            width = 0.5, #<<
-            size = 0.5) + #<<
-geom_point(data=gmPT, 
+            width = 0.7, #<<
+            size = 0.7) + #<<
+geom_point(data=gmPT, size=0.7,
           colour="blue") + 
 scale_y_continuous(limits=c(60,85))
 ```
-### Easier to see the points.
+### 'width` - Amount of jitter
 ]
 
 .right-plot[
@@ -609,7 +583,7 @@ geom_point(data=gmPT,
           colour="blue") + 
 scale_y_continuous(limits=c(60,85))
 ```
-### Make sure x-axis is a factor variable.
+### `fyear` is a factor variable
 ]
 
 .right-plot[
@@ -623,14 +597,14 @@ layout: true
 ---
 
 .left-code[
-### Make the x-axis readable.
+### Cleaner x-axis
 
 ```{r gmEU-28, eval=FALSE}
 gm[continent=="Europe"] %>% 
 ggplot(aes(fyear, lifeexp)) + 
 geom_boxplot() + 
 geom_point(data=gmPT, 
-          colour="blue") + 
+           colour="blue") + 
 scale_x_discrete( #<<
   breaks=seq(1960, 2010, 10)) + #<<
 scale_y_continuous(limits=c(60,85))
@@ -639,6 +613,194 @@ scale_y_continuous(limits=c(60,85))
 
 .right-plot[
 ```{r gmEU-plot-28, ref.label='gmEU-28', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - Boxplot
+---
+
+.left-code[
+### Modify points
+
+```{r gmEU-30, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(fyear, lifeexp)) + 
+geom_boxplot(outlier.size = .5) + #<<
+geom_point(data=gmPT, 
+           shape = 4, #<<
+           colour="blue") + 
+scale_x_discrete( 
+  breaks=seq(1960, 2010, 10)) + 
+scale_y_continuous(limits=c(60,85))
+```
+]
+
+.right-plot[
+```{r gmEU-plot-30, ref.label='gmEU-30', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - Line Plot
+---
+
+.left-code[
+### Line for each country
+
+```{r gmEU-04, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(year, lifeexp, 
+           group=country)) + #<<
+geom_line(colour="grey80") +
+scale_y_continuous(limits=c(0, 85))
+```
+]
+
+.right-plot[
+```{r gmEU-plot-04, ref.label='gmEU-04', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - Line Plot
+---
+
+.left-code[
+<br>
+```{r gmEU-08, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(year, lifeexp, 
+           group=country)) + 
+geom_line(colour="grey80") +
+geom_line(data=gmPT, #<<
+          colour="blue") + #<<
+scale_y_continuous(limits=c(0, 85))
+```
+
+### Used `geom_line()` twice
+
+### See `gghighlight` package
+]
+.right-plot[
+```{r gmEU-plot-08, ref.label='gmEU-08', echo=FALSE, out.width="100%"}
+```
+]
+
+
+---
+layout: false
+class: inverse, center, middle
+
+# Facetting Plots
+
+---
+layout: true
+## Life Expectancy - By Continent
+---
+
+.left-code[
+### facetting by continent
+
+```{r gmFt-04, eval=FALSE}
+gm[continent!="Oceania"] %>% 
+ggplot(aes(fyear, lifeexp)) + 
+geom_boxplot(outlier.size = .5) + 
+scale_x_discrete( 
+  breaks=seq(1960, 2010, 10)) + 
+scale_y_continuous(limits=c(40,85)) +
+facet_wrap(~continent) #<<
+```
+]
+
+.right-plot[
+```{r gmFt-plot-04, ref.label='gmFt-04', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - By Continent
+---
+
+.left-code[
+### Adding Portugal
+
+```{r gmFt-08, eval=FALSE}
+gm[continent!="Oceania"] %>% 
+ggplot(aes(fyear, lifeexp)) + 
+geom_boxplot(outlier.size = .5) + 
+geom_point(data=gmPT, #<<
+           shape = 4, #<<
+           colour="blue") + #<<
+scale_x_discrete( 
+  breaks=seq(1960, 2010, 10)) + 
+scale_y_continuous(limits=c(40,85)) +
+facet_wrap(~continent)
+```
+]
+
+.right-plot[
+```{r gmFt-plot-08, ref.label='gmFt-08', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - By Continent
+---
+
+.left-code[
+### Adding Portugal
+
+```{r gmFt-12, eval=FALSE}
+gm[continent!="Oceania"] %>% 
+ggplot(aes(fyear, lifeexp)) + 
+geom_boxplot(outlier.size = .5) + #<<
+geom_point(data=gmPT, 
+           shape = 4,
+           colour="blue") +
+scale_x_discrete( 
+  breaks=seq(1960, 2010, 10)) + 
+scale_y_continuous(limits=c(40,85)) +
+facet_wrap(~continent)
+```
+]
+
+.right-plot[
+```{r gmFt-plot-12, ref.label='gmFt-12', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Life Expectancy - By Continent
+---
+
+.left-code[
+```{r gmFt-16, eval=FALSE}
+gm[continent!="Oceania"] %>% 
+ggplot(aes(fyear, lifeexp,
+           colour = continent)) +  #<<
+geom_boxplot(outlier.size = .5) +
+geom_point(data=gmPT, 
+           shape = 4,
+           colour="blue") +
+scale_x_discrete( 
+  breaks=seq(1960, 2010, 10)) + 
+scale_y_continuous(limits=c(40,85)) +
+facet_wrap(~continent) +
+xlab("Year") +
+ylab("Life expectancy at Birth") +
+theme(legend.position = "none") 
+```
+]
+
+.right-plot[
+```{r gmFt-plot-16, ref.label='gmFt-16', echo=FALSE, out.width="100%"}
 ```
 ]
 
@@ -659,7 +821,7 @@ class: inverse, center, middle
 
 class: inverse, center, middle
 
-# How does Portugal perform in Europe for health (life expectancy) and wealth (GDP) over time?
+# How does Portugal perform on health and wealth?
 
 ---
 <div class="gapminder-logo-right-top"></div>
@@ -682,18 +844,18 @@ layout: true
 ---
 
 .left-code[
-<br>
+### Colour code by year
+
 ```{r gmHW-04, eval=FALSE}
 yrs <- c(1960,1980,2000,2015)
 gm[continent=="Europe" & 
    year %in% yrs] %>% 
 ggplot(aes(gdpPercap, lifeexp,
-       colour=fyear)) + 
+       colour=fyear)) + #<<
 geom_point() 
 
 ```
-### Not an easy plot to interpret.
-
+### Not easy to interpret
 ]
 
 .right-plot[
@@ -707,9 +869,10 @@ layout: true
 ---
 
 .left-code[
-<br>
+### Plot years separately
+
 ```{r gmHW-08, eval=FALSE}
-yrs <- c(1960,1980,2000,2010)
+yrs <- c(1960,1980,2000,2010)  #<<
 gm[continent=="Europe" & 
    year %in% yrs] %>% 
 ggplot(aes(gdpPercap, lifeexp,
@@ -718,8 +881,6 @@ geom_point() +
 facet_wrap(~fyear) #<<
 
 ```
-### Plot x-axis on a log scale.
-
 ]
 
 .right-plot[
@@ -733,14 +894,15 @@ layout: true
 ---
 
 .left-code[
-<br>
-```{r gmHW-12, eval=FALSE}
-yrs <- c(1960,1980,2000,2010) #<<
+### Log scale x-axis
+
+```{r gmHW-10, eval=FALSE}
+yrs <- c(1960,1980,2000,2010)
 gm[continent=="Europe" & 
    year %in% yrs] %>% 
-ggplot(aes(gdpPercap, lifeexp)) + 
-geom_point(aes(size=pop),
-  colour="grey70") +
+ggplot(aes(gdpPercap, lifeexp,
+       colour=fyear)) + 
+geom_point() +
 scale_x_log10( #<<
  breaks = c(10^3, 10^4, 10^5), #<<
  labels = c("1k","10k","100k")) + #<<
@@ -749,9 +911,66 @@ facet_wrap(~fyear)
 ]
 
 .right-plot[
+```{r gmHW-plot-10, ref.label='gmHW-10', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Health vs Wealth - Log Scale
+---
+
+.left-code[
+### Remove Legend
+
+```{r gmHW-11, eval=FALSE}
+yrs <- c(1960,1980,2000,2010) 
+gm[continent=="Europe" & 
+   year %in% yrs] %>% 
+ggplot(aes(gdpPercap, lifeexp,
+       colour=fyear)) + 
+geom_point() +
+scale_x_log10( 
+ breaks = c(10^3, 10^4, 10^5), 
+ labels = c("1k","10k","100k")) + 
+facet_wrap(~fyear) +
+theme(legend.position = "none") #<<
+```
+]
+
+.right-plot[
+```{r gmHW-plot-11, ref.label='gmHW-11', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Health vs Wealth - Log Scale
+---
+
+.left-code[
+### Point size = population
+
+```{r gmHW-12, eval=FALSE}
+yrs <- c(1960,1980,2000,2010)
+gm[continent=="Europe" & 
+   year %in% yrs] %>% 
+ggplot(aes(gdpPercap, lifeexp)) + 
+geom_point(aes(size=pop,  #<<
+               colour=fyear), #<<
+               shape = 21) +  #<<
+scale_x_log10( 
+ breaks = c(10^3, 10^4, 10^5),
+ labels = c("1k","10k","100k")) + 
+facet_wrap(~fyear) 
+```
+]
+
+.right-plot[
 ```{r gmHW-plot-12, ref.label='gmHW-12', echo=FALSE, out.width="100%"}
 ```
 ]
+
 
 ---
 layout: true
@@ -762,17 +981,19 @@ layout: true
 ### Add Portugal
 
 ```{r gmHW-16, eval=FALSE}
+yrs <- c(1960,1980,2000,2010)
 gm[continent=="Europe" & 
    year %in% yrs] %>% 
 ggplot(aes(gdpPercap, lifeexp)) + 
-geom_point(aes(size=pop),
-  colour="grey70") +
-scale_x_log10(
+geom_point(aes(size=pop,  
+               colour=fyear), 
+               shape = 21) +
+scale_x_log10( 
  breaks = c(10^3, 10^4, 10^5),
  labels = c("1k","10k","100k")) + 
 facet_wrap(~fyear) +
 geom_point(data =  #<<
-           gmPT[year %in% yrs],  #<<
+           gmPT[year %in% yrs], #<<
            colour="blue") #<<
 ```
 ]
@@ -784,24 +1005,57 @@ geom_point(data =  #<<
 
 ---
 layout: true
-## Health vs Wealth 
+## Health vs Wealth - Portugal
 ---
 
 .left-code[
-### Move the legend to below the plot.
+### No need for year colours
 
-```{r gmHW-20, eval=FALSE}
+```{r gmHW-17, eval=FALSE}
+yrs <- c(1960,1980,2000,2010)
 gm[continent=="Europe" & 
    year %in% yrs] %>% 
 ggplot(aes(gdpPercap, lifeexp)) + 
-geom_point(aes(size=pop),
-  colour="grey70") +
-scale_x_log10(
+geom_point(aes(size=pop), #<<
+               colour="grey60", #<<
+               shape = 21) +
+scale_x_log10( 
  breaks = c(10^3, 10^4, 10^5),
  labels = c("1k","10k","100k")) + 
 facet_wrap(~fyear) +
 geom_point(data = 
-           gmPT[year %in% yrs], 
+           gmPT[year %in% yrs],
+           colour="blue")
+```
+]
+
+.right-plot[
+```{r gmHW-plot-17, ref.label='gmHW-17', echo=FALSE, out.width="100%"}
+```
+]
+
+---
+layout: true
+## Health vs Wealth 
+---
+
+.left-code[
+### Move the legend below
+
+```{r gmHW-20, eval=FALSE}
+yrs <- c(1960,1980,2000,2010)
+gm[continent=="Europe" & 
+   year %in% yrs] %>% 
+ggplot(aes(gdpPercap, lifeexp)) + 
+geom_point(aes(size=pop), #<<
+               colour="grey60", #<<
+               shape = 21) +
+scale_x_log10( 
+ breaks = c(10^3, 10^4, 10^5),
+ labels = c("1k","10k","100k")) + 
+facet_wrap(~fyear) +
+geom_point(data = 
+           gmPT[year %in% yrs],
            colour="blue") +
 theme(legend.position = "bottom") #<<
 ```
@@ -811,6 +1065,30 @@ theme(legend.position = "bottom") #<<
 ```{r gmHW-plot-20, ref.label='gmHW-20', echo=FALSE, out.width="100%"}
 ```
 ]
+
+---
+layout: false
+
+```{r gmHW-final, eval=TRUE, echo=FALSE, out.width="90%"}
+yrs <- c(1960,1980,2000,2010)
+gm[continent=="Europe" & 
+   year %in% yrs] %>% 
+ggplot(aes(gdpPercap, lifeexp)) + 
+geom_point(aes(size=pop), 
+               colour="grey60", 
+               shape = 21) +
+scale_x_log10( 
+ breaks = c(10^3, 10^4, 10^5),
+ labels = c("1k","10k","100k")) + 
+facet_wrap(~fyear) +
+geom_point(data = 
+           gmPT[year %in% yrs],
+           colour="blue") +
+xlab("GDP per Capita (US$") +
+ylab("Life Expectancy at Birth") +
+theme(legend.position = "bottom") 
+```
+
 ---
 layout: false
 class: inverse, center, middle

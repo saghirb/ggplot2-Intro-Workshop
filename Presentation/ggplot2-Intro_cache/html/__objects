@@ -28,11 +28,10 @@ gmPT-12
 gmPT-plot-12	
 gmPT-14	
 gmPT-plot-14	
-gmEU-04	
-gmEU-plot-04	
-gmEU-08	
-gmEU-plot-12	
 gmEU-12	
+gmEU-plot-12	
+gmEU-14	
+gmEU-plot-14	
 gmEU-16	
 gmEU-plot-16	
 gmEU-20	
@@ -41,14 +40,35 @@ gmEU-24
 gmEU-plot-24	
 gmEU-28	
 gmEU-plot-28	
+gmEU-30	
+gmEU-plot-30	
+gmEU-04	
+gmEU-plot-04	
+gmEU-08	
+gmEU-plot-08	
+gmFt-04	
+gmFt-plot-04	
+gmFt-08	
+gmFt-plot-08	
+gmFt-12	
+gmFt-plot-12	
+gmFt-16	
+gmFt-plot-16	
 unnamed-chunk-4	
 gmHW-04	
 gmHW-plot-04	yrs
 gmHW-08	
 gmHW-plot-08	yrs
+gmHW-10	
+gmHW-plot-10	yrs
+gmHW-11	
+gmHW-plot-11	yrs
 gmHW-12	
 gmHW-plot-12	yrs
 gmHW-16	
-gmHW-plot-16	
+gmHW-plot-16	yrs
+gmHW-17	
+gmHW-plot-17	yrs
 gmHW-20	
-gmHW-plot-20	
+gmHW-plot-20	yrs
+gmHW-final	yrs
