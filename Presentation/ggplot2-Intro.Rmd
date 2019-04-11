@@ -27,17 +27,12 @@ library(ggplot2)
 library(emojifont)
 library(here)
 
-# Making some aesthetic changes for this document
-theme_set(theme_gray(base_size = 10))
-options(htmltools.dir.version = FALSE)
-
-#
 # Copied & modified from: https://github.com/gadenbuie/gentle-ggplot2 (Index.Rmd)
 #
 # Thanks to Garrick Aden-Buie (https://www.garrickadenbuie.com/) for sharing :)
 #
 
-knitr::opts_chunk$set(fig.width=4.25, fig.height=3.3, fig.retina=3,
+knitr::opts_chunk$set(fig.width=4.4, fig.height=3.2, fig.retina=4,
                       out.width = "100%",
                       message=FALSE, warning=FALSE, cache = TRUE, 
                       autodep = TRUE, hiline=TRUE)
@@ -52,10 +47,23 @@ knitr::opts_hooks$set(fig.callout = function(options) {
   options
 })
 
+options(
+  htmltools.dir.version = FALSE, 
+  width = 90,
+  # max.print = 9999,
+  knitr.table.format = "html"
+)
+
+# Making some aesthetic changes for this document
+theme_set(theme_gray(base_size = 8))
+#
 #_# Readin the gapminder data now.
 library(data.table)
 gm <- fread(here("data", "gapminder.csv"))
 ```
+
+
+
 
 class: middle, center
 
@@ -129,7 +137,8 @@ class: middle, center
 # First 10 Observations
 
 ```{r headgm, echo=FALSE, eval=TRUE}
-head(gm, n=10) %>% kable(align = 'cccrrrrr')
+head(gm, n=10) %>% kable(align = 'cccrrrrr', format='html', 
+                         digits = 2, padding = 2)
 ```
 
 ---
@@ -139,7 +148,8 @@ class: middle, center
 # Last 10 Observations
 
 ```{r tailgm, echo=FALSE, eval=TRUE}
-tail(gm, n=10) %>% kable(align = 'cccrrrrr')
+tail(gm, n=10) %>% kable(align = 'cccrrrrr', format='html', 
+                         digits = 2, padding = 2)
 ```
 
 ---
@@ -643,6 +653,26 @@ scale_y_continuous(limits=c(60,85))
 ]
 
 ---
+layout: false
+## Shapes & Values
+
+```{r shapes, echo=F, out.width="80%", fig.width=6}
+## A look at all 25 symbols
+dfshapes <- as.data.table(list(value = 0:25))
+dfshapes[, x:=(value %% 5) + 1][
+  , z:=floor((value)/5) + 1][
+  , y:=max(z)-z][
+  , z:=NULL]
+  
+ggplot(dfshapes, aes(x = x, y = y)) +
+  geom_point(aes(shape = value), size = 4) + 
+  scale_shape_identity() +
+  theme_void() +
+  geom_text(aes(label = value), nudge_x = -.3)
+```
+
+
+---
 layout: true
 ## Life Expectancy - Line Plot
 ---
@@ -703,9 +733,9 @@ layout: true
 ---
 
 .left-code[
-### facetting by continent
+### Facetting by continent
 
-```{r gmFt-04, eval=FALSE}
+```{r gmFt-04, eval=FALSE, echo=TRUE}
 gm[continent!="Oceania"] %>% 
 ggplot(aes(fyear, lifeexp)) + 
 geom_boxplot(outlier.size = .5) + 
@@ -1069,7 +1099,7 @@ theme(legend.position = "bottom") #<<
 ---
 layout: false
 
-```{r gmHW-final, eval=TRUE, echo=FALSE, out.width="90%"}
+```{r gmHW-final, eval=TRUE, echo=FALSE, out.width="100%"}
 yrs <- c(1960,1980,2000,2010)
 gm[continent=="Europe" & 
    year %in% yrs] %>% 
