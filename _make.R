@@ -5,50 +5,39 @@ library(here)
 here()
 
 # Render the presentation, Base R exercises and data.table exercises & solutions
-rmarkdown::render(here("Presentation", "R-and-data.table-Workshop.Rmd"),
+rmarkdown::render(here("Presentation", "ggplot2-Intro.Rmd"),
                   clean = TRUE, output_dir = here("Presentation"))
-rmarkdown::render(here("Exercises", "Base-R", "Base-R-Exercises.Rmd"), clean = TRUE,
-                  output_dir = here("Exercises", "Base-R"))
-rmarkdown::render(here("Exercises", "World-Popn", "World-Population-Exercises.Rmd"),
-                  clean = TRUE, output_dir = here("Exercises", "World-Popn"))
-rmarkdown::render(here("Exercises", "World-Popn", "World-Population-Solutions.Rmd"),
-                  clean = TRUE, output_dir = here("Exercises", "World-Popn"))
+
+
+# rmarkdown::render(here("Exercises", "World-Popn", "World-Population-Solutions.Rmd"),
+#                   clean = TRUE, output_dir = here("Exercises", "World-Popn"))
 
 # Create zip files to share with participants
 # First empty the share folder and recreate the directory structure.
-unlink(here("Share/*"), recursive = TRUE)
-dir.create(here("Share", "R-Concepts"))
+unlink(here("Share/"), recursive = TRUE)
+dir.create(here("Share"))
 dir.create(here("Share", "Slides-Notes"))
-dir.create(here("Share", "World-Popn"))
+dir.create(here("Share", "Exercises"))
+dir.create(here("Share", "Exercises", "data"))
 
 # Populate the Share directories
-file.copy(here("Exercises", "Base-R", "Base-R-Exercises.pdf"),
-          here("Share", "R-Concepts"), overwrite = TRUE)
-
-file.copy(here("Presentation", "R-and-data.table-Workshop.html"),
+file.copy(here("Presentation", "ggplot2-Intro.html"),
           here("Share", "Slides-Notes"), overwrite = TRUE)
 
-download.file("https://github.com/eddelbuettel/gsir-te/raw/master/Getting-Started-in-R.pdf",
-              here("Share", "Slides-Notes", "Getting-Started-in-R.pdf"))
+file.copy(here("Exercises", "ggplot2-Intro-Exercises.Rmd"),
+          here("Share", "Exercises"), overwrite = TRUE)
 
-file.copy(here("Exercises", "World-Popn", "World-Population-Exercises.Rmd"),
-          here("Share", "World-Popn"), overwrite = TRUE)
-
-file.copy(here("Exercises", "World-Popn", "World-Population.csv"),
-          here("Share", "World-Popn"), overwrite = TRUE)
-
-file.copy(here("Exercises", "World-Popn", "World-Population-Data-Info.txt"),
-          here("Share", "World-Popn"), overwrite = TRUE)
+file.copy(here("Exercises", "data", "gapminder.csv"),
+          here("Share", "Exercises", "data"), overwrite = TRUE)
 
 # Creating (initialising) an RStudio project
-rstudioapi::initializeProject(path = here("Share", "World-Popn"))
+rstudioapi::initializeProject(path = here("Share", "Exercises"))
+file.rename(here("Share", "Exercises", "Exercises.Rproj"),
+            here("Share", "Exercises", "ggplot2-Exercises.Rproj"))
 
 # Using here() function with zip results in full paths in the zip files :(
 # Not beautiful: Using setwd to overcome the full paths issue above.
+setwd(here("Share"))
+zip(here("Share", "ggplot2-Intro.zip"), ".", extras = "-FS")
 setwd(here())
-zip(here("Share", "GSiRdt.zip"), "./Share/", extras = "-FS")
 
-setwd(here("Exercises", "World-Popn"))
-zip(here("Share", "World-Popn-solutions.zip"), "World-Population-Solutions.html",
-    extras = "-FS")
-setwd(here())

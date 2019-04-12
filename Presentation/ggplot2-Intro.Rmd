@@ -120,15 +120,15 @@ class: middle, left
 
 # Gapminder Data
 
-### Population (Total)
+### - Population (Total)
 
-### GDP per capita (US$, inflation-adjusted)
+### - GDP per capita (US$, inflation-adjusted)
 
-### Life expectancy at birth, in years
+### - Life expectancy at birth, in years
 
-### Infant Mortality per 1000 births
+### - Infant Mortality per 1000 births
 
-### Total Fertility (children per woman)
+### - Total Fertility (children per woman)
 
 ---
 class: middle, center
@@ -217,18 +217,11 @@ options(width = widthDefault)
 ```
 
 ---
-<div class="gapminder-logo-right-top"></div>
+<div class="rlogo-logo-right-top"></div>
 
 # Structure of Gapminder Data
 ```{r gmstructure, echo=TRUE, eval=TRUE, highlight.output=c(2, 3, 10)}
 str(gm)
-```
-
----
-class: center, middle
-
-```{r, out.width = "400px", echo=FALSE}
-knitr::include_graphics("images/hex-ggplot2.png")
 ```
 
 ---
@@ -237,7 +230,7 @@ class: inverse, center, middle
 # What are the time trends for Portugal?
 
 ---
-
+<div class="rdatatable-logo-right-top"></div>
 # Portuguese Data
 
 ### Create a dataset for Portugal
@@ -433,6 +426,7 @@ class: inverse, center, middle
 ### Complete "Exercise 1 - Portugal"
 
 ---
+<div class="ggplot2-hex-right-top"></div>
 ## Some comments (i)
 
 .left-code[
@@ -459,6 +453,7 @@ ggplot(aes(year, lifeexp)) +
 
 ---
 layout: true
+<div class="ggplot2-hex-right-top"></div>
 ## Some comments (ii)
 ---
 
@@ -490,6 +485,9 @@ class: inverse, center, middle
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - Points
 ---
 
@@ -511,6 +509,9 @@ scale_y_continuous(limits=c(60,85))
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - Points
 ---
 
@@ -533,6 +534,9 @@ scale_y_continuous(limits=c(60,85))
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - Jitter
 ---
 
@@ -555,6 +559,9 @@ scale_y_continuous(limits=c(60,85))
 ]
 
 ---
+layout: true
+
+<div class="ggplot2-hex-right-top"></div>
 
 .left-code[
 ### Make points smaller
@@ -579,6 +586,9 @@ scale_y_continuous(limits=c(60,85))
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - Boxplot
 ---
 
@@ -603,6 +613,9 @@ scale_y_continuous(limits=c(60,85))
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - Boxplot
 ---
 
@@ -628,8 +641,12 @@ scale_y_continuous(limits=c(60,85))
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - Boxplot
 ---
+<div class="ggplot2-hex-right-top"></div>
 
 .left-code[
 ### Modify points
@@ -654,6 +671,9 @@ scale_y_continuous(limits=c(60,85))
 
 ---
 layout: false
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Shapes & Values
 
 ```{r shapes, echo=F, out.width="80%", fig.width=6}
@@ -671,9 +691,44 @@ ggplot(dfshapes, aes(x = x, y = y)) +
   geom_text(aes(label = value), nudge_x = -.3)
 ```
 
+---
+layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
+## Life Expectancy - Boxplot
+---
+
+.left-code[
+### Final
+
+```{r gmEU-34, eval=FALSE}
+gm[continent=="Europe"] %>% 
+ggplot(aes(fyear, lifeexp)) + 
+geom_boxplot(outlier.size = .5) + 
+geom_point(data=gmPT, 
+           shape = 4,
+           colour="blue") + 
+scale_x_discrete( 
+  breaks=seq(1960, 2010, 10)) + 
+scale_y_continuous(limits=c(60,85)) +
+ggtitle("Portugal (x) in Europe") + #<<
+xlab("Year") + #<<
+ylab("Life Expectancy at Birth") #<<
+```
+]
+
+.right-plot[
+```{r gmEU-plot-34, ref.label='gmEU-34', echo=FALSE, out.width="100%"}
+```
+]
+
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - Line Plot
 ---
 
@@ -696,6 +751,9 @@ scale_y_continuous(limits=c(0, 85))
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - Line Plot
 ---
 
@@ -713,7 +771,7 @@ scale_y_continuous(limits=c(0, 85))
 
 ### Used `geom_line()` twice
 
-### See `gghighlight` package
+See "`gghighlight`" package
 ]
 .right-plot[
 ```{r gmEU-plot-08, ref.label='gmEU-08', echo=FALSE, out.width="100%"}
@@ -729,6 +787,9 @@ class: inverse, center, middle
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - By Continent
 ---
 
@@ -738,7 +799,7 @@ layout: true
 ```{r gmFt-04, eval=FALSE, echo=TRUE}
 gm[continent!="Oceania"] %>% 
 ggplot(aes(fyear, lifeexp)) + 
-geom_boxplot(outlier.size = .5) + 
+geom_boxplot() + 
 scale_x_discrete( 
   breaks=seq(1960, 2010, 10)) + 
 scale_y_continuous(limits=c(40,85)) +
@@ -753,6 +814,9 @@ facet_wrap(~continent) #<<
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - By Continent
 ---
 
@@ -762,7 +826,7 @@ layout: true
 ```{r gmFt-08, eval=FALSE}
 gm[continent!="Oceania"] %>% 
 ggplot(aes(fyear, lifeexp)) + 
-geom_boxplot(outlier.size = .5) + 
+geom_boxplot() + 
 geom_point(data=gmPT, #<<
            shape = 4, #<<
            colour="blue") + #<<
@@ -780,11 +844,14 @@ facet_wrap(~continent)
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - By Continent
 ---
 
 .left-code[
-### Adding Portugal
+### Reduce outlier size
 
 ```{r gmFt-12, eval=FALSE}
 gm[continent!="Oceania"] %>% 
@@ -807,6 +874,9 @@ facet_wrap(~continent)
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Life Expectancy - By Continent
 ---
 
@@ -825,7 +895,7 @@ scale_y_continuous(limits=c(40,85)) +
 facet_wrap(~continent) +
 xlab("Year") +
 ylab("Life expectancy at Birth") +
-theme(legend.position = "none") 
+theme(legend.position = "none") #<<
 ```
 ]
 
@@ -870,6 +940,9 @@ knitr::include_graphics("images/gapminder-plot.png")
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Health vs Wealth
 ---
 
@@ -895,6 +968,9 @@ geom_point()
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Health vs Wealth - Facet
 ---
 
@@ -920,6 +996,9 @@ facet_wrap(~fyear) #<<
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Health vs Wealth - Log Scale
 ---
 
@@ -947,6 +1026,9 @@ facet_wrap(~fyear)
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Health vs Wealth - Log Scale
 ---
 
@@ -975,6 +1057,9 @@ theme(legend.position = "none") #<<
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Health vs Wealth - Log Scale
 ---
 
@@ -1004,6 +1089,9 @@ facet_wrap(~fyear)
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Health vs Wealth - Portugal
 ---
 
@@ -1035,6 +1123,9 @@ geom_point(data =  #<<
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Health vs Wealth - Portugal
 ---
 
@@ -1066,6 +1157,9 @@ geom_point(data =
 
 ---
 layout: true
+
+<div class="ggplot2-hex-right-top"></div>
+
 ## Health vs Wealth 
 ---
 
@@ -1098,29 +1192,6 @@ theme(legend.position = "bottom") #<<
 
 ---
 layout: false
-
-```{r gmHW-final, eval=TRUE, echo=FALSE, out.width="100%"}
-yrs <- c(1960,1980,2000,2010)
-gm[continent=="Europe" & 
-   year %in% yrs] %>% 
-ggplot(aes(gdpPercap, lifeexp)) + 
-geom_point(aes(size=pop), 
-               colour="grey60", 
-               shape = 21) +
-scale_x_log10( 
- breaks = c(10^3, 10^4, 10^5),
- labels = c("1k","10k","100k")) + 
-facet_wrap(~fyear) +
-geom_point(data = 
-           gmPT[year %in% yrs],
-           colour="blue") +
-xlab("GDP per Capita (US$") +
-ylab("Life Expectancy at Birth") +
-theme(legend.position = "bottom") 
-```
-
----
-layout: false
 class: inverse, center, middle
 
 # Exercises
@@ -1136,17 +1207,38 @@ class: inverse, center, middle
 
 # Summary
 
-###  
+### - Answer questions with data visualisations
 
-### 
+### - Define your plots and `gglot2` does the rest
 
-### 
+### - Integrates well with R markdown
 
-### 
+### - Lots more than this 3 hour workshop could show
 
-### 
+### - Try it! 
 
-### 
+---
+class: inverse, center, middle
+
+
+.pull-left[
+## Notes & Slides 
+
+### https://github.com/saghirb
+
+### https://ilustat.com/resources
+]
+.pull-right[
+## Follow us on Twitter
+
+### @ilustat
+
+### @dsup_lx
+
+### @novaanalytics
+]
+
+<br> 
 
 ---
 class: inverse, center, middle

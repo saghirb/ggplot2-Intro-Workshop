@@ -73,3 +73,5 @@ gmHW-20	yrs	c	gm	continent	year	%in%	%>%	ggplot	aes	gdpPercap	lifeexp	geom_point
 gmHW-plot-20	yrs	c	gm	continent	year	%in%	%>%	ggplot	aes	gdpPercap	lifeexp	geom_point	pop	scale_x_log10	facet_wrap	fyear	gmPT	theme
 gmHW-final	yrs	c	gm	continent	year	%in%	%>%	ggplot	aes	gdpPercap	lifeexp	geom_point	pop	scale_x_log10	facet_wrap	fyear	gmPT	xlab	ylab	theme
 shapes	dfshapes	as.data.table	list	x	value	%%	z	floor	y	max	ggplot	aes	geom_point	scale_shape_identity	theme_void	geom_text
+gmEU-34	gm	continent	%>%	ggplot	aes	fyear	lifeexp	geom_boxplot	geom_point	gmPT	scale_x_discrete	seq	scale_y_continuous	c	ggtitle	xlab	ylab
+gmEU-plot-34	gm	continent	%>%	ggplot	aes	fyear	lifeexp	geom_boxplot	geom_point	gmPT	scale_x_discrete	seq	scale_y_continuous	c	ggtitle	xlab	ylab
