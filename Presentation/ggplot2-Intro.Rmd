@@ -417,7 +417,7 @@ class: inverse, center, middle
 
 # Exercises
 
-### Download: http://example.com/real-link-here
+### Download: https://ilustat.com/shared/ggplot2-Intro.zip
 
 ### Double Click on "`ggplot2-exercises.Rproj`"
 
@@ -427,6 +427,7 @@ class: inverse, center, middle
 
 ---
 <div class="ggplot2-hex-right-top"></div>
+
 ## Some comments (i)
 
 .left-code[
@@ -453,7 +454,9 @@ ggplot(aes(year, lifeexp)) +
 
 ---
 layout: true
+
 <div class="ggplot2-hex-right-top"></div>
+
 ## Some comments (ii)
 ---
 
@@ -1200,7 +1203,7 @@ class: inverse, center, middle
 
 ### Open file "`ggplot2-exercises.Rmd`"
 
-### Complete "Exercise 2 - Europe"
+### Complete "Exercise 3: Gapminder plot"
 
 ---
 <div class="xaringan-hex-right-top"></div>

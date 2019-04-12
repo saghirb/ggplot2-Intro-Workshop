@@ -1,0 +1,206 @@
+---
+title: '`ggplot2` Exercises: Gapminder Data'
+author: "Put Your Name Here"
+date: "`r format(Sys.time(), '%a %d %b %Y (%H:%M:%S)')`"
+output:
+  html_document:
+    highlight: tango
+    theme: united
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
+options(width=100)
+```
+
+# Gapminder Data
+
+We will use a subset of the gapminder data[^gapminder]. The variables in the 
+dataset are as follows.
+
+- `continent`: Continent
+- `country`: Country name
+- `year`: Year
+- `population`: Population
+- `gdp`: GDP per capita (US$, inflation-adjusted)
+- `lefeexp`: Life expectancy at birth, in years
+- `infmort`: Infant Mortality (rate per 1000 births)
+- `fertility`: Children per woman
+
+## Read in the data
+
+```{r importgmshow}
+library(data.table)
+library(here)
+
+gm <- fread(here("data", "gapminder.csv"))
+
+# Some modifications which will be useful later
+gm[, continent:=as.factor(continent)]
+gm[, country:=as.factor(country)]
+
+gm
+
+str(gm)
+```
+
+# Life Expectancy - Portugal
+
+Let's plot life expectancy over time for Portugal.
+```{r lifeexpPT}
+library(ggplot2)
+library(magrittr)
+
+gm[country == "Portugal"] %>% 
+ggplot(aes(year, lifeexp)) +
+  geom_point() + 
+  geom_line() +
+  scale_y_continuous( 
+                limits=c(0, 80)) 
+```
+
+
+## Exercise 1: Portugal
+
+### Infant Mortality - Portugal
+
+Plot the infant mortality rate over time for Portugal. Include the following:
+
++ Colour for the lines and plots 
++ Labels for the axes.
++ Add "Infant Mortality - Portugal" as a title (hint: use `ggtitle()`)
+
+```{r infmortPT-1}
+# Type answer here.
+
+```
+
+**Interpret this plot.**
+
+### Fertility Rate - Portugal
+
+Plot the fertility rate over time for Portugal. Include the following:
+
++ Colour for the lines and plots 
++ Labels for the axes.
++ Add "Fertility Rate - Portugal" as a title (hint: use `ggtitle()`)
+
+```{r fertilityPT}
+# Type answer here.
+
+```
+
+Use the colours of the Portuguese flag,: "darkred" for points and "darkgreen" 
+for lines. What do you notice when you switch the order of `geom_point()` and
+`geom_line()`? Do you strictly need to include the `geom_point()`?
+
+**Interpret this plot.**
+
+### Population & GDP
+
+Produce the same plots as above for population and GDP. How do you interpret them both?
+
+
+
+# Life Expectancy - Europe
+
+## Exercise 2: Europe
+
+In this exercise we will evaluate how Portugal performs in Europe for:
+
+- Infant Mortality
+- Fertility Rate
+- GDP per Capita
+
+Produce the follow plots:
+
+- Boxplot over time
+- Line plot over time with European countries in grey and Portugal in blue.
+
+### Infant Mortality - Portugal in Europe
+
+The performance of Portugal in Europe for infant mortality rate (per 1000 births).
+
+```{r infmort-boxplot}
+# Type answer here.
+
+```
+
+```{r infmort-lineplot}
+# Type answer here.
+
+```
+
+**Interpret this plot.** How does Portugal perform relative to other EU countries?
+
+### Fertility Rate - Portugal in Europe
+
+The performance of Portugal in Europe for the total fertility rate (children per woman).
+
+```{r fertility-boxplot}
+# Type answer here.
+
+```
+
+```{r fertility-lineplot}
+# Type answer here.
+
+```
+
+
+**Interpret this plot.** How does Portugal perform relative to other EU countries?
+
+### GDP - Portugal in Europe
+
+The performance of Portugal in Europe for the GDP per capita (inflation adjusted US$).
+
+```{r GDP-boxplot}
+# Type answer here.
+
+```
+
+```{r GDP-lineplot}
+# Type answer here.
+
+```
+
+
+**Interpret this plot.** How does Portugal perform relative to other EU countries?
+
+# Life Expectancy - Europe
+
+## Exercise 3: Gapminder plot
+
+Reproduce the "Health versus Wealth" gapminder plot but replacing health with:
+
+- Infant Mortality
+- Fertility Rate
+
+### Gapminder Plot - Infant Mortality
+
+```{r infmort-gdp-gapminder}
+# Type answer here.
+
+```
+
+**Interpret this plot.** How does Portugal perform relative to other EU countries?
+
+### Gapminder Plot - Fertility
+
+
+```{r fertility-gdp-gapminder}
+# Type answer here.
+
+```
+
+**Interpret this plot.** How does Portugal perform relative to other EU countries?
+
+[^gmData]: Source: https://www.gapminder.org/data/
