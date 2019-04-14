@@ -17,7 +17,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, cache = FALSE)
 options(width=100)
 ```
 
@@ -46,10 +46,14 @@ gm <- fread(here("data", "gapminder.csv"))
 # Some modifications which will be useful later
 gm[, continent:=as.factor(continent)]
 gm[, country:=as.factor(country)]
+gm[, fyear:=as.factor(year)]
 
 gm
-
 str(gm)
+
+# A dataset with just Portuguese data
+gmPT <- gm[country == "Portugal"]
+gmPT
 ```
 
 # Life Expectancy - Portugal
@@ -93,7 +97,7 @@ Plot the fertility rate over time for Portugal. Include the following:
 + Labels for the axes.
 + Add "Fertility Rate - Portugal" as a title (hint: use `ggtitle()`)
 
-```{r fertilityPT}
+```{r fertilityPT-1}
 # Type answer here.
 
 ```
@@ -102,11 +106,17 @@ Use the colours of the Portuguese flag,: "darkred" for points and "darkgreen"
 for lines. What do you notice when you switch the order of `geom_point()` and
 `geom_line()`? Do you strictly need to include the `geom_point()`?
 
+```{r fertilityPT-2}
+# Type answer here.
+
+```
+
 **Interpret this plot.**
 
 ### Population & GDP
 
-Produce the same plots as above for population and GDP. How do you interpret them both?
+Produce the same plots as above for population and GDP per capita. How do you 
+interpret them?
 
 
 

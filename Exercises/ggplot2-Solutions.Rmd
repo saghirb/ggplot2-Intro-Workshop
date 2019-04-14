@@ -1,0 +1,318 @@
+---
+title: '`ggplot2` Solutions: Gapminder Data'
+author: "Put Your Name Here"
+date: "`r format(Sys.time(), '%a %d %b %Y (%H:%M:%S)')`"
+output:
+  html_document:
+    highlight: tango
+    theme: united
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, cache = FALSE)
+options(width=100)
+```
+
+# Gapminder Data
+
+We will use a subset of the gapminder data[^gapminder]. The variables in the 
+dataset are as follows.
+
+- `continent`: Continent
+- `country`: Country name
+- `year`: Year
+- `population`: Population
+- `gdp`: GDP per capita (US$, inflation-adjusted)
+- `lefeexp`: Life expectancy at birth, in years
+- `infmort`: Infant Mortality (rate per 1000 births)
+- `fertility`: Children per woman
+
+## Read in the data
+
+```{r importgmshow}
+library(data.table)
+library(here)
+
+gm <- fread(here("data", "gapminder.csv"))
+
+# Some modifications which will be useful later
+gm[, continent:=as.factor(continent)]
+gm[, country:=as.factor(country)]
+gm[, fyear:=as.factor(year)]
+gm
+str(gm)
+
+# A dataset with just Portuguese data
+gmPT <- gm[country == "Portugal"]
+gmPT
+```
+
+# Life Expectancy - Portugal
+
+Let's plot life expectancy over time for Portugal.
+```{r lifeexpPT}
+library(ggplot2)
+library(magrittr)
+
+gm[country == "Portugal"] %>% 
+ggplot(aes(year, lifeexp)) +
+  geom_point() + 
+  geom_line() +
+  scale_y_continuous(limits=c(0, 80)) 
+```
+
+
+## Exercise 1: Portugal
+
+### Infant Mortality - Portugal
+
+Plot the infant mortality rate over time for Portugal. Include the following:
+
++ Colour for the lines and plots 
++ Labels for the axes.
++ Add "Infant Mortality - Portugal" as a title (hint: use `ggtitle()`)
+
+```{r infmortPT-1}
+gm[country == "Portugal"] %>% 
+ggplot(aes(year, infmort)) +
+  geom_point(colour="blue") + 
+  geom_line(colour="blue") +
+  scale_y_continuous(limits=c(0, 100)) +
+  ggtitle("Portugal - Infant Mortality") +
+  xlab("Year") +
+  ylab("Infant Mortality (rate per 1000 births)")
+
+```
+
+**Interpret this plot.**
+
+### Fertility Rate - Portugal
+
+Plot the fertility rate over time for Portugal. Include the following:
+
++ Colour for the lines and plots 
++ Labels for the axes.
++ Add "Fertility Rate - Portugal" as a title (hint: use `ggtitle()`)
+
+```{r fertilityPT-1}
+gm[country == "Portugal"] %>% 
+ggplot(aes(year, fertility)) +
+  geom_point(colour="darkred") + 
+  geom_line(colour="darkgreen") +
+  scale_y_continuous(limits=c(0, 4)) +
+  ggtitle("Portugal - Fertility Rate") +
+  xlab("Year") +
+  ylab("Children per woman")
+
+```
+
+Use the colours of the Portuguese flag,: "darkred" for points and "darkgreen" 
+for lines. What do you notice when you switch the order of `geom_point()` and
+`geom_line()`? Do you strictly need to include the `geom_point()`?
+
+```{r fertilityPT-2}
+gm[country == "Portugal"] %>% 
+ggplot(aes(year, fertility)) +
+  geom_line(colour="darkgreen") +
+  geom_point(colour="darkred") + 
+  scale_y_continuous(limits=c(0, 4)) +
+  ggtitle("Portugal - Fertility Rate") +
+  xlab("Year") +
+  ylab("Children per woman")
+```
+
+**Interpret this plot.**
+
+### Population & GDP
+
+Produce the same plots as above for population and GDP per capita. How do you 
+interpret them?
+
+```{r popPT}
+gm[country == "Portugal"] %>% 
+ggplot(aes(year, pop)) +
+  geom_point(colour="blue") + 
+  geom_line(colour="blue") +
+  scale_y_continuous(limits=c(0, 11000000)) +
+  ggtitle("Portugal - Total Population") +
+  xlab("Year") +
+  ylab("Total Population")
+
+```
+
+```{r gdpPercapPT}
+gm[country == "Portugal"] %>% 
+ggplot(aes(year, gdpPercap)) +
+  geom_point(colour="blue") + 
+  geom_line(colour="blue") +
+  scale_y_continuous(limits=c(0, 12500)) +
+  ggtitle("Portugal - GDP per capita") +
+  xlab("Year") +
+  ylab("GDP per capita (US$)")
+
+```
+
+
+# Life Expectancy - Europe
+
+## Exercise 2: Europe
+
+In this exercise we will evaluate how Portugal performs in Europe for:
+
+- Infant Mortality
+- Fertility Rate
+- GDP per Capita
+
+Produce the follow plots:
+
+- Boxplot over time
+- Line plot over time with European countries in grey and Portugal in blue.
+
+### Infant Mortality - Portugal in Europe
+
+The performance of Portugal in Europe for infant mortality rate (per 1000 births).
+
+```{r infmort-boxplot}
+gm[continent=="Europe"] %>% 
+  ggplot(aes(fyear, infmort)) + 
+  geom_boxplot(outlier.size = .5) + 
+  geom_point(data=gmPT, shape = 4, colour="blue") + 
+  scale_x_discrete(breaks=seq(1960, 2010, 10)) + 
+  scale_y_continuous(limits=c(0, 125)) +
+  ggtitle("Portugal in Europe - Infant Mortality") +
+  xlab("Year") +
+  ylab("Infant Mortality (rate per 1000 births)")
+```
+
+```{r infmort-lineplot}
+gm[continent=="Europe"] %>% 
+  ggplot(aes(year, infmort, group=country)) + 
+  geom_line(colour="grey80") +
+  geom_line(data=gmPT, colour="blue") + 
+  scale_y_continuous(limits=c(0, 125)) +
+  ggtitle("Portugal in Europe - Infant Mortality") +
+  xlab("Year") +
+  ylab("Infant Mortality (rate per 1000 births)")
+```
+
+**Interpret this plot.** How does Portugal perform relative to other EU countries?
+
+### Fertility Rate - Portugal in Europe
+
+The performance of Portugal in Europe for the total fertility rate (children per woman).
+
+```{r fertility-boxplot}
+gm[continent=="Europe"] %>% 
+  ggplot(aes(fyear, fertility)) + 
+  geom_boxplot(outlier.size = .5) + 
+  geom_point(data=gmPT, shape = 4, colour="blue") + 
+  scale_x_discrete(breaks=seq(1960, 2010, 10)) + 
+  scale_y_continuous(limits=c(0, 7)) +
+  ggtitle("Portugal in Europe - Fertility Rate") +
+  xlab("Year") +
+  ylab("Children per woman")
+```
+
+```{r fertility-lineplot}
+gm[continent=="Europe"] %>% 
+  ggplot(aes(year, fertility, group=country)) + 
+  geom_line(colour="grey80") +
+  geom_line(data=gmPT, colour="blue") + 
+  scale_y_continuous(limits=c(0, 7)) +
+  ggtitle("Portugal in Europe - Fertility Rate") +
+  xlab("Year") +
+  ylab("Children per woman")
+```
+
+
+**Interpret this plot.** How does Portugal perform relative to other EU countries?
+
+### GDP - Portugal in Europe
+
+The performance of Portugal in Europe for the GDP per capita (inflation adjusted US$).
+
+```{r GDP-boxplot}
+gm[continent=="Europe"] %>% 
+  ggplot(aes(fyear, gdpPercap)) + 
+  geom_boxplot(outlier.size = .5) + 
+  geom_point(data=gmPT, shape = 4, colour="blue") + 
+  scale_x_discrete(breaks=seq(1960, 2010, 10)) + 
+  scale_y_continuous(limits=c(0, 50000)) +
+  ggtitle("Portugal in Europe - GDP per Capita") +
+  xlab("Year") +
+  ylab("GDP per Capita (US$)")
+```
+
+```{r GDP-lineplot}
+gm[continent=="Europe"] %>% 
+  ggplot(aes(year, gdpPercap, group=country)) + 
+  geom_line(colour="grey80") +
+  geom_line(data=gmPT, colour="blue") + 
+  scale_y_continuous(limits=c(0, 50000)) +
+  ggtitle("Portugal in Europe - GDP per Capita") +
+  xlab("Year") +
+  ylab("GDP per Capita (US$)")
+```
+
+
+**Interpret this plot.** How does Portugal perform relative to other EU countries?
+
+# Life Expectancy - Europe
+
+## Exercise 3: Gapminder plot
+
+Reproduce the "Health versus Wealth" gapminder plot but replacing health with:
+
+- Infant Mortality
+- Fertility Rate
+
+### Gapminder Plot - Infant Mortality
+
+```{r infmort-gdp-gapminder}
+yrs <- c(1960, 1980, 2000, 2010)
+gm[continent=="Europe" & year %in% yrs] %>% 
+  ggplot(aes(gdpPercap, infmort)) + 
+  geom_point(aes(size=pop, colour=fyear), shape = 21) +
+  scale_x_log10(
+    breaks = c(10^3, 10^4, 10^5),
+    labels = c("1k","10k","100k")) + 
+  scale_y_continuous(limits=c(0, 125)) +
+  ggtitle("Portugal - Health vs Wealth") +
+  xlab("GDP per Capita (US$)") +
+  ylab("Infant Mortality (rate per 1000 births)") +
+  facet_wrap(~fyear) +
+  geom_point(data = gmPT[year %in% yrs], colour="blue")
+```
+
+**Interpret this plot.** How does Portugal perform relative to other EU countries?
+
+### Gapminder Plot - Fertility
+
+
+```{r fertility-gdp-gapminder}
+yrs <- c(1960, 1980, 2000, 2010)
+gm[continent=="Europe" & year %in% yrs] %>% 
+  ggplot(aes(gdpPercap, fertility)) + 
+  geom_point(aes(size=pop, colour=fyear), shape = 21) +
+  scale_x_log10(
+    breaks = c(10^3, 10^4, 10^5),
+    labels = c("1k","10k","100k")) + 
+  scale_y_continuous(limits=c(0, 7)) +
+  ggtitle("Portugal - Health vs Wealth") +
+  xlab("GDP per Capita (US$)") +
+  ylab("Children per woman") +
+  facet_wrap(~fyear) +
+  geom_point(data = gmPT[year %in% yrs], colour="blue")
+```
+
+**Interpret this plot.** How does Portugal perform relative to other EU countries?
+
+[^gmData]: Source: https://www.gapminder.org/data/

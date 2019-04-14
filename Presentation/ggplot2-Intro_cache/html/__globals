@@ -75,3 +75,6 @@ gmHW-final	yrs	c	gm	continent	year	%in%	%>%	ggplot	aes	gdpPercap	lifeexp	geom_po
 shapes	dfshapes	as.data.table	list	x	value	%%	z	floor	y	max	ggplot	aes	geom_point	scale_shape_identity	theme_void	geom_text
 gmEU-34	gm	continent	%>%	ggplot	aes	fyear	lifeexp	geom_boxplot	geom_point	gmPT	scale_x_discrete	seq	scale_y_continuous	c	ggtitle	xlab	ylab
 gmEU-plot-34	gm	continent	%>%	ggplot	aes	fyear	lifeexp	geom_boxplot	geom_point	gmPT	scale_x_discrete	seq	scale_y_continuous	c	ggtitle	xlab	ylab
+unnamed-chunk-6	include_graphics
+unnamed-chunk-7	include_graphics
+unnamed-chunk-8	include_graphics

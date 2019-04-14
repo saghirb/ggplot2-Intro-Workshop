@@ -419,9 +419,9 @@ class: inverse, center, middle
 
 ### Download: https://ilustat.com/shared/ggplot2-Intro.zip
 
-### Double Click on "`ggplot2-exercises.Rproj`"
+### Double Click on "`ggplot2-Exercises.Rproj`"
 
-### Open file "`ggplot2-exercises.Rmd`"
+### Open file "`ggplot2-Exercises.Rmd`"
 
 ### Complete "Exercise 1 - Portugal"
 
@@ -914,9 +914,9 @@ class: inverse, center, middle
 
 # Exercises
 
-### Double Click on "`ggplot2-exercises.Rproj`"
+### Double Click on "`ggplot2-Exercises.Rproj`"
 
-### Open file "`ggplot2-exercises.Rmd`"
+### Open file "`ggplot2-Exercises.Rmd`"
 
 ### Complete "Exercise 2 - Europe"
 
@@ -1199,9 +1199,9 @@ class: inverse, center, middle
 
 # Exercises
 
-### Double Click on "`ggplot2-exercises.Rproj`"
+### Double Click on "`ggplot2-Exercises.Rproj`"
 
-### Open file "`ggplot2-exercises.Rmd`"
+### Open file "`ggplot2-Exercises.Rmd`"
 
 ### Complete "Exercise 3: Gapminder plot"
 
