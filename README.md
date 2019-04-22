@@ -37,10 +37,13 @@ When you get to each of the exercises in the presentation:
 - Ask the participant to double click on `Exercises/ggplot2-Exercises.Rproj` from 
   the unzipped location to open  Rstudio with the right setup.
 - Participants should then work through `Exercises/ggplot2-Exercises.Rmd`.
-- Start by knitting[^zipproblem] the `Rmd` document.
+- Start by knitting the `Rmd` document.
     + As the start of the first Exercise ask the participants to change the name to 
     their name and knit again. This usually makes them smile.
   
+  
+> Note: Some participants might open the `Exercises/ggplot2-Exercises.Rproj` from within the zip archive which will lead to issues when knitting the `Exercises/ggplot2-Exercises.Rmd`. Double check that they unzipped the file first and opened `Exercises/ggplot2-Exercises.Rproj` from the unzipped location.
+
 **During the exercises strongly encourage participants to discuss and work together in pairs.**
   
 ## At the End of the Course
@@ -48,15 +51,15 @@ When you get to each of the exercises in the presentation:
 - Share the solutions to the exercises (zip file)
     + https://github.com/saghirb/ggplot2-Intro-Workshop/raw/master/Share/ggplot2-Solutions.zip
 
-# Re-creating the Workshop Materials.
+## Re-creating the Workshop Materials.
 
 Run the [_make.R](https://github.com/saghirb/ggplot2-Intro-Workshop/blob/master/_make.R) 
 script in the R console.
 
 ## Why `ggplot2`?
 
-It produces elegant graphics by design. It is very flexible mean that you can customise your
-plots or add new features to the `ggplot2`[^ggplot2ext] ecosystem.
+It produces elegant graphics by design. It is very flexible allowing you to customise your
+plots or add new features (via extensions) to the `ggplot2` ecosystem (see https://www.ggplot2-exts.org/gallery/).
 
 `ggplot2` is an essential must have package your R tool kit. Be brave give it a go :)
 
@@ -78,16 +81,8 @@ A reminder of annoucements for this repository.
 
 Thanks to [Hadley Wickham](https://github.com/hadley) (author and maintainer) and his
 co-authors Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, 
-Claus Wilke, Kara Woo and RStudio for this great package. For a full list of
-contributors to the `ggplot2` package see https://github.com/tidyverse/ggplot2/graphs/contributors.
+Claus Wilke, Kara Woo and RStudio for this great package. 
 
+For a full list of contributors to the `ggplot2` package see
+https://github.com/tidyverse/ggplot2/graphs/contributors.
 
-
-[^zipproblem:] Some participants might open the `Exercises/ggplot2-Exercises.Rproj` 
-from within the zip archive which will lead to issues when knitting the 
-`Exercises/ggplot2-Exercises.Rmd`. Double check that they unzipped the file first and opened
-`Exercises/ggplot2-Exercises.Rproj` from the unzipped location.
-[^ggplot2ext:] To see the community contributions to the `ggplot2` ecosystem visit
-https://www.ggplot2-exts.org/gallery/
-[^ggplot2Authors] For the most up to date list of authors see
-https://ggplot2.tidyverse.org/authors.html
