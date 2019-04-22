@@ -1220,28 +1220,6 @@ class: inverse, center, middle
 
 ### - Try it! 
 
----
-class: inverse, center, middle
-
-
-.pull-left[
-## Notes & Slides 
-
-### https://github.com/saghirb
-
-### https://ilustat.com/resources
-]
-.pull-right[
-## Follow us on Twitter
-
-### @ilustat
-
-### @dsup_lx
-
-### @novaanalytics
-]
-
-<br> 
 
 ---
 class: inverse, center, middle
