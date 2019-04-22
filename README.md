@@ -1,20 +1,21 @@
 # Workshop - Introduction to `ggplot2`
 
-This approximately three hour workshop is an introduction the [`ggplot2`](https://ggplot2.tidyverse.org/)
-package for newcomers to the [R](https://www.r-project.org/). Participants are immediately 
-taught to work with R markdown so that it becomes a natural part of their workflow.
+This approximately three hour workshop gives an introduction the
+[`ggplot2`](https://ggplot2.tidyverse.org/) package for newcomers to the 
+[R](https://www.r-project.org/). Participants are immediately taught to work with R 
+markdown so that it becomes a natural part of their workflow.
 
 ## Target Audience
 
 This is a beginner level course aimed at anyone who works with data and has at least 
 some basic knowledge of R, e.g., see:
 
-- Getting Started in R (https://github.com/saghirb/Getting-Started-in-R/blob/master/Getting-Started-in-R.pdf)
+- [Getting Started in R](https://ilustat.com/shared/Getting-Started-in-R.pdf)
 
 ## Running the Workshop 
 
 - Use the workshop presentation (HTML):
-    + (https://github.com/saghirb/ggplot2-Intro-Workshop/tree/master/Presentation)
+    + https://github.com/saghirb/ggplot2-Intro-Workshop/tree/master/Presentation
 - Share the following zip file with the participants:
     + [ggplot2-Intro.zip](https://github.com/saghirb/ggplot2-Intro-Workshop/blob/master/Share/ggplot2-Intro.zip)
     + Ask them to unzip it
@@ -45,7 +46,7 @@ When you get to each of the exercises in the presentation:
 ## At the End of the Course
 
 - Share the solutions to the exercises (zip file)
-    + (https://github.com/saghirb/ggplot2-Intro-Workshop/raw/master/Share/ggplot2-Solutions.zip)
+    + https://github.com/saghirb/ggplot2-Intro-Workshop/raw/master/Share/ggplot2-Solutions.zip
 
 # Re-creating the Workshop Materials.
 
@@ -78,7 +79,7 @@ A reminder of annoucements for this repository.
 Thanks to [Hadley Wickham](https://github.com/hadley) (author and maintainer) and his
 co-authors Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, 
 Claus Wilke, Kara Woo and RStudio for this great package. For a full list of
-contributors to the `ggplot2` package see (https://github.com/tidyverse/ggplot2/graphs/contributors).
+contributors to the `ggplot2` package see https://github.com/tidyverse/ggplot2/graphs/contributors.
 
 
 
@@ -87,6 +88,6 @@ from within the zip archive which will lead to issues when knitting the
 `Exercises/ggplot2-Exercises.Rmd`. Double check that they unzipped the file first and opened
 `Exercises/ggplot2-Exercises.Rproj` from the unzipped location.
 [^ggplot2ext:] To see the community contributions to the `ggplot2` ecosystem visit
-(https://www.ggplot2-exts.org/gallery/) 
+https://www.ggplot2-exts.org/gallery/
 [^ggplot2Authors] For the most up to date list of authors see
-(https://ggplot2.tidyverse.org/authors.html)
+https://ggplot2.tidyverse.org/authors.html
