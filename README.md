@@ -1,4 +1,4 @@
-# Workshop - Introduction to `ggplot2`
+# Workshop - Introduction to ggplot2
 
 This approximately three hour workshop gives an introduction the
 [`ggplot2`](https://ggplot2.tidyverse.org/) package for newcomers to the 
@@ -71,17 +71,17 @@ First presented as part of a [Data Science Unplugged](https://dsup.org/) meetup:
  
 - https://www.meetup.com/Data-Science-Unplugged/events/260241067/
 
-## ## Annoucements
+## Annoucements
 
 A reminder of annoucements for this repository.
 
-- List here! 
+- https://twitter.com/dsup_lx/status/1120346266704150528
 
 ## Acknowledgements - `ggplot2`
 
 Thanks to [Hadley Wickham](https://github.com/hadley) (author and maintainer) and his
 co-authors Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, 
-Claus Wilke, Kara Woo and RStudio for this great package. 
+Claus Wilke, Kara Woo and RStudio for this great package and many others too. 
 
 For a full list of contributors to the `ggplot2` package see
 https://github.com/tidyverse/ggplot2/graphs/contributors.
