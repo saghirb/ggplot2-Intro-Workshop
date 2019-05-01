@@ -76,6 +76,7 @@ First presented as part of a [Data Science Unplugged](https://dsup.org/) meetup:
 A reminder of annoucements for this repository.
 
 - https://twitter.com/dsup_lx/status/1120346266704150528
+- https://rweekly.org/2019-17.html#Resources
 
 ## Acknowledgements - `ggplot2`
 
