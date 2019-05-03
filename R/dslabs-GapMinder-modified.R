@@ -6,7 +6,7 @@ library(data.table)
 library(here)
 
 # Get the dslabs version of the gapminder data
-gmOrig <- as.data.table(gapminder)
+gmOrig <- as.data.table(dslabs::gapminder)
 
 setnames(gmOrig, c("infant_mortality", "life_expectancy", "population"),
          c("infmort", "lifeexp", "pop"))

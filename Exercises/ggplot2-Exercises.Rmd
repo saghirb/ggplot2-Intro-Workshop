@@ -29,7 +29,7 @@ dataset are as follows.
 - `continent`: Continent
 - `country`: Country name
 - `year`: Year
-- `population`: Population
+- `pop`: Population
 - `gdp`: GDP per capita (US$, inflation-adjusted)
 - `lefeexp`: Life expectancy at birth, in years
 - `infmort`: Infant Mortality (rate per 1000 births)
