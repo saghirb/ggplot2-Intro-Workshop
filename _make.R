@@ -1,8 +1,12 @@
-## Run all files to prepare "Getting Started in R and data.table" workshop
+## Run all files to prepare "Introduction to ggplot2" workshop
 
 # Setup
 library(here)
 here()
+
+# Copy the Gapminder data to the exercises folder
+file.copy(here("data", "gapminder.csv"),
+          here("Exercises", "data", "gapminder.csv"), overwrite = TRUE)
 
 # Render the presentation, Base R exercises and data.table exercises & solutions
 rmarkdown::render(here("Presentation", "ggplot2-Intro.Rmd"),
@@ -18,7 +22,7 @@ rmarkdown::render(here("Exercises", "ggplot2-Solutions.Rmd"),
 library(webshot)
 htmlSlides <- paste0("file://",
                     normalizePath(here("Presentation", "ggplot2-Intro.html")))
-webshot(htmlSlides, here("Presentation", "ggplot2-Intro.pdf"),
+webshot(htmlSlides, here("Presentation", "ggplot2-Intro.pdf"), delay = 5,
         vwidth = 960, vheight = 540, zoom = 1.5, cliprect = "viewport")
 
 # Create zip files to share with participants
