@@ -62,9 +62,6 @@ library(data.table)
 gm <- fread(here("data", "gapminder.csv"))
 ```
 
-
-
-
 class: middle, center
 
 <div class="ggplot-logo-left-top"></div> 
@@ -74,7 +71,7 @@ class: middle, center
 
 <br>
 
-### Saghir Bashir & Andreia Carlos<br><br>13th April 2019
+### Saghir Bashir & Andreia Carlos<br><br>15th Nov 2019
 
 
 ---
