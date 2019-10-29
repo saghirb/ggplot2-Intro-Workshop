@@ -5,3 +5,5 @@
 README.html
 .here
 *.log
+*_cache/
+*_file/
