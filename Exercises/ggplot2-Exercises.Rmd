@@ -213,4 +213,4 @@ Reproduce the "Health versus Wealth" gapminder plot but replacing health with:
 
 **Interpret this plot.** How does Portugal perform relative to other EU countries?
 
-[^gmData]: Source: https://www.gapminder.org/data/
+[^gapminder]: Source: https://www.gapminder.org/data/
