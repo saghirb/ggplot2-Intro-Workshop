@@ -1,6 +1,12 @@
 ## Run all files to prepare "Introduction to ggplot2" workshop
 
-makeStart <- Sys.time()
+# Use all but one available cores
+useNcpus = max(1, parallel::detectCores()-1)
+options(Ncpus=useNcpus)
+
+# Start timing
+library(tictoc)
+tic()
 
 # Setup
 library(here)
@@ -21,12 +27,17 @@ rmarkdown::render(here("Exercises", "ggplot2-Solutions.Rmd"),
                   clean = TRUE, output_dir = here("Exercises"))
 
 # Create a PDF version of the slides to share
+# Using xaringan::decktape() function (see help page)
 ## Make sure that phantom.js is installed (e.g. webshot::install_phantomjs())
-library(webshot)
+# library(webshot)
 htmlSlides <- paste0("file://",
                     normalizePath(here("Presentation", "ggplot2-Intro.html")))
-webshot(htmlSlides, here("Presentation", "ggplot2-Intro.pdf"), delay = 5,
-        vwidth = 960, vheight = 540, zoom = 1.0, cliprect = "viewport")
+# webshot(htmlSlides, here("Presentation", "ggplot2-Intro.pdf"), delay = 10,
+#         vwidth = 960, vheight = 540, zoom = 1.0, cliprect = "viewport")
+
+xaringan::decktape(file = htmlSlides,
+                   output = here("Presentation", "ggplot2-Intro.pdf"),
+                   docker = TRUE)
 
 # Create zip files to share with participants
 # First empty the share folder and recreate the directory structure.
@@ -63,6 +74,5 @@ zip(here("Share", "ggplot2-Solutions.zip"),
     c("ggplot2-Solutions.Rmd", "ggplot2-Solutions.html"), extras = "-FS")
 setwd(here())
 
-# Start and end run time.
-makeEnd <- Sys.time()
-difftime(makeEnd, makeStart)
+# Total run time.
+toc()

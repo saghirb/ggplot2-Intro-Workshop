@@ -1,6 +1,6 @@
 ---
 title: "Introduction to `ggplot2`"
-author: "Saghir Bashir & Andreia Carlos"
+author: "Saghir Bashir"
 date: "`r format(Sys.time(), '%a %d %b %Y (%H:%M:%S)')`"
 output:
   xaringan::moon_reader:
@@ -18,6 +18,11 @@ output:
       countIncrementalSlides: false
       slideNumberFormat: "%current%"
     seal: false
+  pagedown::html_paged: 
+    css:
+      - default-fonts
+      - default-page
+      - default
 ---
 
 ```{r setup, include=FALSE}
@@ -32,9 +37,9 @@ library(here)
 # Thanks to Garrick Aden-Buie (https://www.garrickadenbuie.com/) for sharing :)
 #
 
-knitr::opts_chunk$set(fig.width=4.4, fig.height=3.2, fig.retina=4,
+knitr::opts_chunk$set(fig.width = 8.8, fig.height = 6.4, fig.retina = 2,
                       out.width = "100%",
-                      message=FALSE, warning=FALSE, cache = TRUE, 
+                      message = FALSE, warning = FALSE, cache = FALSE, 
                       autodep = TRUE, hiline=TRUE)
 
 knitr::opts_hooks$set(fig.callout = function(options) {
@@ -55,8 +60,8 @@ options(
 )
 
 # Making some aesthetic changes for this document
-theme_set(theme_gray(base_size = 8))
-#
+# theme_set(theme_gray(base_size = 24))
+
 #_# Readin the gapminder data now.
 library(data.table)
 gm <- fread(here("data", "gapminder.csv"))
@@ -71,7 +76,7 @@ class: middle, center
 
 <br>
 
-### Saghir Bashir & Andreia Carlos<br><br>15th Nov 2019
+### Saghir Bashir<br><br>28th Feb 2019
 
 
 ---
@@ -676,11 +681,12 @@ layout: false
 
 ## Shapes & Values
 
-```{r shapes, echo=F, out.width="80%", fig.width=6}
+```{r shapes, echo=F, out.width="80%", fig.width = 8, fig.height = 5}
 ## A look at all 25 symbols
+colsN <- 6
 dfshapes <- as.data.table(list(value = 0:25))
-dfshapes[, x:=(value %% 5) + 1][
-  , z:=floor((value)/5) + 1][
+dfshapes[, x:=(value %% colsN) + 1][
+  , z:=floor((value)/colsN) + 1][
   , y:=max(z)-z][
   , z:=NULL]
   
@@ -688,7 +694,7 @@ ggplot(dfshapes, aes(x = x, y = y)) +
   geom_point(aes(shape = value), size = 4) + 
   scale_shape_identity() +
   theme_void() +
-  geom_text(aes(label = value), nudge_x = -.3)
+  geom_text(aes(label = value), nudge_x = -.3, size = 8)
 ```
 
 ---
