@@ -37,10 +37,13 @@ library(here)
 # Thanks to Garrick Aden-Buie (https://www.garrickadenbuie.com/) for sharing :)
 #
 
-knitr::opts_chunk$set(fig.width = 8.8, fig.height = 6.4, fig.retina = 2,
+knitr::opts_chunk$set(fig.width = 8.8, fig.height = 6.4, fig.retina = 1,
                       out.width = "100%",
-                      message = FALSE, warning = FALSE, cache = FALSE, 
-                      autodep = TRUE, hiline=TRUE)
+                      message = FALSE, 
+                      warning = FALSE, 
+                      cache = FALSE, 
+                      autodep = TRUE, 
+                      hiline=TRUE)
 
 knitr::opts_hooks$set(fig.callout = function(options) {
   if (options$fig.callout) {
@@ -76,7 +79,12 @@ class: middle, center
 
 <br>
 
-### Saghir Bashir<br><br>28th Feb 2019
+### Saghir Bashir
+
+#### [ilustat](https://ilustat.com/) & [GitHub: @saghirb](https://github.com/saghirb)<br>
+
+### 28th Feb 2019
+
 
 
 ---
@@ -661,7 +669,7 @@ gm[continent=="Europe"] %>%
 ggplot(aes(fyear, lifeexp)) + 
 geom_boxplot(outlier.size = .5) + #<<
 geom_point(data=gmPT, 
-           shape = 4, #<<
+           shape = 2, #<<
            colour="blue") + 
 scale_x_discrete( 
   breaks=seq(1960, 2010, 10)) + 
@@ -1219,9 +1227,9 @@ class: inverse, center, middle
 
 ### - Integrates well with R markdown
 
-### - Lots more than this 3 hour workshop could show
+### - Lots more than this short workshop could show
 
-### - Try it! 
+### - Try it out and experiment to learn more! 
 
 
 ---

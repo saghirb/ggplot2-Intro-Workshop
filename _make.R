@@ -18,13 +18,28 @@ file.copy(here("data", "gapminder.csv"),
 
 # Render the presentation, Base R exercises and data.table exercises & solutions
 rmarkdown::render(here("Presentation", "ggplot2-Intro.Rmd"),
-                  clean = TRUE, output_dir = here("Presentation"))
+                  clean = TRUE,
+                  output_dir = here("Presentation"))
 
 rmarkdown::render(here("Exercises", "ggplot2-Exercises.Rmd"),
-                  clean = TRUE, output_dir = here("Exercises"))
+                  clean = TRUE,
+                  output_dir = here("Exercises"))
 
 rmarkdown::render(here("Exercises", "ggplot2-Solutions.Rmd"),
-                  clean = TRUE, output_dir = here("Exercises"))
+                  clean = TRUE,
+                  params = list(
+                    echoCode = FALSE,
+                    mainTitle = "`ggplot2` Solutions (without Code): Gapminder Data"),
+                  output_dir = here("Exercises"),
+                  output_file = "ggplot2-Solutions_Without_Code.html")
+
+rmarkdown::render(here("Exercises", "ggplot2-Solutions.Rmd"),
+                  clean = TRUE,
+                  params = list(
+                    echoCode = TRUE,
+                    mainTitle = "`ggplot2` Solutions: Gapminder Data"),
+                  output_dir = here("Exercises"),
+                  output_file = "ggplot2-Solutions_With_Code.html")
 
 # Create a PDF version of the slides to share
 # Using xaringan::decktape() function (see help page)
@@ -57,6 +72,9 @@ file.copy(here("Presentation", "ggplot2-Intro.pdf"),
 file.copy(here("Exercises", "ggplot2-Exercises.Rmd"),
           here("Share", "Exercises"), overwrite = TRUE)
 
+file.copy(here("Exercises", "ggplot2-Solutions_Without_Code.html"),
+          here("Share", "Exercises"), overwrite = TRUE)
+
 file.copy(here("Exercises", "data", "gapminder.csv"),
           here("Share", "Exercises", "data"), overwrite = TRUE)
 
@@ -68,10 +86,13 @@ file.rename(here("Share", "Exercises", "Exercises.Rproj"),
 # Using here() function with zip results in full paths in the zip files :(
 # Not beautiful: Using setwd to overcome the full paths issue above.
 setwd(here("Share"))
-zip(here("Share", "ggplot2-Intro.zip"), ".", extras = "-FS")
+zip(here("Share", "ggplot2-Intro.zip"), ".",
+    extras = "-FS")
+
 setwd(here("Exercises"))
 zip(here("Share", "ggplot2-Solutions.zip"),
-    c("ggplot2-Solutions.Rmd", "ggplot2-Solutions.html"), extras = "-FS")
+    c("ggplot2-Solutions.Rmd", "ggplot2-Solutions_With_Code.html"),
+    extras = "-FS")
 setwd(here())
 
 # Total run time.

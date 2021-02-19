@@ -1,6 +1,6 @@
 ---
 title: '`ggplot2` Exercises: Gapminder Data'
-author: "Put Your Name Here"
+author: "Type Your Name Here"
 date: "`r format(Sys.time(), '%a %d %b %Y (%H:%M:%S)')`"
 output:
   html_document:
@@ -11,9 +11,6 @@ output:
     toc_float:
       collapsed: no
       smooth_scroll: no
-  pdf_document:
-    toc: yes
-    toc_depth: '3'
 ---
 
 ```{r setup, include=FALSE}
@@ -37,7 +34,7 @@ dataset are as follows.
 
 ## Read in the data
 
-```{r importgmshow}
+```{r importgmshow, messages = FALSE}
 library(data.table)
 library(here)
 
