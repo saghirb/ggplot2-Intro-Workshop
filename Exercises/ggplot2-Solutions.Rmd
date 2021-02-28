@@ -79,9 +79,9 @@ ggplot(aes(year, lifeexp)) +
 
 Plot the infant mortality rate over time for Portugal. Include the following:
 
-+ Colour for the lines and plots 
++ Colour for the lines and points.
 + Labels for the axes.
-+ Add "Infant Mortality - Portugal" as a title (hint: use `ggtitle()`)
++ Add "Infant Mortality - Portugal" as a title (hint: use `ggtitle()`).
 
 ```{r infmortPT-1}
 gm[country == "Portugal"] %>% 
@@ -101,9 +101,9 @@ ggplot(aes(year, infmort)) +
 
 Plot the fertility rate over time for Portugal. Include the following:
 
-+ Colour for the lines and plots 
++ Colour for the lines and points.
 + Labels for the axes.
-+ Add "Fertility Rate - Portugal" as a title (hint: use `ggtitle()`)
++ Add "Fertility Rate - Portugal" as a title (hint: use `ggtitle()`).
 
 ```{r fertilityPT-1}
 gm[country == "Portugal"] %>% 
@@ -148,7 +148,6 @@ ggplot(aes(year, pop)) +
   ggtitle("Portugal - Total Population") +
   xlab("Year") +
   ylab("Total Population")
-
 ```
 
 ```{r gdpPercapPT}
@@ -160,7 +159,6 @@ ggplot(aes(year, gdpPercap)) +
   ggtitle("Portugal - GDP per capita") +
   xlab("Year") +
   ylab("GDP per capita (US$)")
-
 ```
 
 

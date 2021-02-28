@@ -75,9 +75,9 @@ ggplot(aes(year, lifeexp)) +
 
 Plot the infant mortality rate over time for Portugal. Include the following:
 
-+ Colour for the lines and plots 
++ Colour for the lines and points.
 + Labels for the axes.
-+ Add "Infant Mortality - Portugal" as a title (hint: use `ggtitle()`)
++ Add "Infant Mortality - Portugal" as a title (hint: use `ggtitle()`).
 
 ```{r infmortPT-1}
 # Type answer here.
@@ -90,9 +90,9 @@ Plot the infant mortality rate over time for Portugal. Include the following:
 
 Plot the fertility rate over time for Portugal. Include the following:
 
-+ Colour for the lines and plots 
++ Colour for the lines and points.
 + Labels for the axes.
-+ Add "Fertility Rate - Portugal" as a title (hint: use `ggtitle()`)
++ Add "Fertility Rate - Portugal" as a title (hint: use `ggtitle()`).
 
 ```{r fertilityPT-1}
 # Type answer here.
@@ -115,7 +115,16 @@ for lines. What do you notice when you switch the order of `geom_point()` and
 Produce the same plots as above for population and GDP per capita. How do you 
 interpret them?
 
+```{r popPT}
+# Type answer here for Population.
 
+```
+
+```{r gdpPercapPT}
+# Type answer here for GDP per capita.
+
+
+```
 
 # Life Expectancy - Europe
 
